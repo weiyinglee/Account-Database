@@ -1,9 +1,18 @@
+//import dependencies
 import React from 'react'
+
+//import components
+import DataFilters from './DataFilters'
+import DataTable from './DataTable'
 
 class Layout extends React.Component {
 	render() {
 		return (
-			<h1>Hello World</h1>
+			<div className="container-fluid">
+				<h1 id="app-title">Account Database</h1>
+				<DataFilters />
+				<DataTable />
+			</div>
 		)
 	}
 }

@@ -1,0 +1,9 @@
+#app-title {
+	text-align: center;
+}
+
+.dropdown-menu {         
+	max-height: 450px;
+	overflow-y: auto;
+}
+
