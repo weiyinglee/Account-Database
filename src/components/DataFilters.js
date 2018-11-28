@@ -12,11 +12,27 @@ class DataFilters extends React.Component {
 				  <div className="collapse navbar-collapse" id="navbarSupportedContent">
 				    <ul className="navbar-nav mr-auto">
 
+				      <li className="nav-item dropdown">
+				        <a className="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+				         Account Name
+				        </a>
+				        <div className="dropdown-menu" aria-labelledby="navbarDropdown">
+				        	<div className="input-group mb-3">
+							  <input type="text" className="form-control" placeholder="Enter Names"/>
+							  <div className="input-group-append">
+							    <button className="btn btn-outline-secondary btn-sm">Search</button>
+							  </div>
+							</div>					        	
+				        </div>
+				      </li>
+
 					  <li className="nav-item dropdown">
 				        <a className="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 				          Account Type
 				        </a>
 				        <div className="dropdown-menu" aria-labelledby="navbarDropdown">
+				          <a className="dropdown-item" href="#">All</a>
+				          <div className="dropdown-divider"></div>
 				          <a className="dropdown-item" href="#">Academia</a>
 				          <a className="dropdown-item" href="#">Other</a>
 				        </div>
@@ -27,78 +43,97 @@ class DataFilters extends React.Component {
 				          Location
 				        </a>
 				        <div className="dropdown-menu" aria-labelledby="navbarDropdown">
-						  <a className="dropdown-item" href="#">Australia</a>
-						  <div class="dropdown-divider"></div>
-						  <a className="dropdown-item" href="#">Belgium</a>
-						  <div class="dropdown-divider"></div>
-				          <a className="dropdown-item" href="#">Canada</a>
-				          <a className="dropdown-item" href="#">China</a>
-				          <a className="dropdown-item" href="#">Denmark</a>
-				          <div class="dropdown-divider"></div>
-				          <a className="dropdown-item" href="#">France</a>
-				          <div class="dropdown-divider"></div>
-				          <a className="dropdown-item" href="#">Germany</a>
-				          <div class="dropdown-divider"></div>
-				          <a className="dropdown-item" href="#">Hong Kong</a>
-				          <a className="dropdown-item" href="#">Hungary</a>
-				          <div class="dropdown-divider"></div>
-				          <a className="dropdown-item" href="#">Israel</a>
-				          <a className="dropdown-item" href="#">India</a>
-				          <a className="dropdown-item" href="#">Ireland</a>
-				          <a className="dropdown-item" href="#">Italy</a>
-				          <div class="dropdown-divider"></div>
-				          <a className="dropdown-item" href="#">Japan</a>
-				          <div class="dropdown-divider"></div>
-				          <a className="dropdown-item" href="#">Lithuania</a>
-				          <div class="dropdown-divider"></div>
-						  <a className="dropdown-item" href="#">Netherland</a>
-				          <a className="dropdown-item" href="#">New Zealand</a>
-				          <div class="dropdown-divider"></div>
-				          <a className="dropdown-item" href="#">Russia</a>
-				          <div class="dropdown-divider"></div>
-				          <a className="dropdown-item" href="#">Saudi Arabia</a>
-				          <a className="dropdown-item" href="#">Singapore</a>
-				          <a className="dropdown-item" href="#">Slovenia</a>
-				          <a className="dropdown-item" href="#">South Korea</a>
-				          <a className="dropdown-item" href="#">Spain</a>
-				          <a className="dropdown-item" href="#">Switzerland</a>
-				          <a className="dropdown-item" href="#">Sweden</a>
-				          <div class="dropdown-divider"></div>
-				          <a className="dropdown-item" href="#">Taiwan</a>
-				          <div class="dropdown-divider"></div>
-				          <a className="dropdown-item" href="#">United Kingdom</a>
-				          <a className="dropdown-item" href="#">United States</a>
+				          <a className="dropdown-item" href="#">All</a>
+						  <div className="dropdown-divider"></div>
+						  <form>
+						  <a className="dropdown-item" href="#"><input type="checkbox"/>&nbsp;Australia</a>
+						  <div className="dropdown-divider"></div>
+						  <a className="dropdown-item" href="#"><input type="checkbox"/>&nbsp;Belgium</a>
+						  <div className="dropdown-divider"></div>
+				          <a className="dropdown-item" href="#"><input type="checkbox"/>&nbsp;Canada</a>
+				          <a className="dropdown-item" href="#"><input type="checkbox"/>&nbsp;China</a>
+				          <a className="dropdown-item" href="#"><input type="checkbox"/>&nbsp;Denmark</a>
+				          <div className="dropdown-divider"></div>
+				          <a className="dropdown-item" href="#"><input type="checkbox"/>&nbsp;France</a>
+				          <div className="dropdown-divider"></div>
+				          <a className="dropdown-item" href="#"><input type="checkbox"/>&nbsp;Germany</a>
+				          <div className="dropdown-divider"></div>
+				          <a className="dropdown-item" href="#"><input type="checkbox"/>&nbsp;Hong Kong</a>
+				          <a className="dropdown-item" href="#"><input type="checkbox"/>&nbsp;Hungary</a>
+				          <div className="dropdown-divider"></div>
+				          <a className="dropdown-item" href="#"><input type="checkbox"/>&nbsp;Israel</a>
+				          <a className="dropdown-item" href="#"><input type="checkbox"/>&nbsp;India</a>
+				          <a className="dropdown-item" href="#"><input type="checkbox"/>&nbsp;Ireland</a>
+				          <a className="dropdown-item" href="#"><input type="checkbox"/>&nbsp;Italy</a>
+				          <div className="dropdown-divider"></div>
+				          <a className="dropdown-item" href="#"><input type="checkbox"/>&nbsp;Japan</a>
+				          <div className="dropdown-divider"></div>
+				          <a className="dropdown-item" href="#"><input type="checkbox"/>&nbsp;Lithuania</a>
+				          <div className="dropdown-divider"></div>
+						  <a className="dropdown-item" href="#"><input type="checkbox"/>&nbsp;Netherland</a>
+				          <a className="dropdown-item" href="#"><input type="checkbox"/>&nbsp;New Zealand</a>
+				          <div className="dropdown-divider"></div>
+				          <a className="dropdown-item" href="#"><input type="checkbox"/>&nbsp;Russia</a>
+				          <div className="dropdown-divider"></div>
+				          <a className="dropdown-item" href="#"><input type="checkbox"/>&nbsp;Saudi Arabia</a>
+				          <a className="dropdown-item" href="#"><input type="checkbox"/>&nbsp;Singapore</a>
+				          <a className="dropdown-item" href="#"><input type="checkbox"/>&nbsp;Slovenia</a>
+				          <a className="dropdown-item" href="#"><input type="checkbox"/>&nbsp;South Korea</a>
+				          <a className="dropdown-item" href="#"><input type="checkbox"/>&nbsp;Spain</a>
+				          <a className="dropdown-item" href="#"><input type="checkbox"/>&nbsp;Switzerland</a>
+				          <a className="dropdown-item" href="#"><input type="checkbox"/>&nbsp;Sweden</a>
+				          <div className="dropdown-divider"></div>
+				          <a className="dropdown-item" href="#"><input type="checkbox"/>&nbsp;Taiwan</a>
+				          <div className="dropdown-divider"></div>
+				          <a className="dropdown-item" href="#"><input type="checkbox"/>&nbsp;United Kingdom</a>
+				          <a className="dropdown-item" href="#"><input type="checkbox"/>&nbsp;United States</a>
+				          </form>
 				        </div>
-				      </li>		      
+				      </li>		
 
-				      <form className="form-inline my-2 my-lg-0">
-					    <input className="form-control mr-sm-2" type="search" placeholder="Search Name" aria-label="Search" />
-					  </form>
+				      <li className="nav-item dropdown">
+				        <a className="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+				          Publication Volume Range
+				        </a>
+				        <div className="dropdown-menu" aria-labelledby="navbarDropdown">
+				          <a href="#" className="dropdown-item">All</a>
+				          <div className="dropdown-divider"></div>
+				          <input type="number" min="0" max="500" className="form-control" placeholder="From..."/>
+				          <div className="dropdown-divider"></div>
+					      <input type="number" min="0" max="500" className="form-control mr-sm-2" placeholder="To..."/>
+				        </div>
+				      </li>
 
-					  <form className="form-inline my-2 my-lg-0">
-					    <input className="form-control mr-sm-2" type="search" placeholder="Search Tags" aria-label="Search" />
-					  </form>	
+				      <li className="nav-item dropdown">
+				        <a className="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+				          Author Volume Range
+				        </a>
+				        <div className="dropdown-menu" aria-labelledby="navbarDropdown">
+				          <a href="#" className="dropdown-item">All</a>
+				          <div className="dropdown-divider"></div>
+				          <input type="number" min="0" max="500" className="form-control" placeholder="From..."/>
+				          <div className="dropdown-divider"></div>
+					      <input type="number" min="0" max="500" className="form-control mr-sm-2" placeholder="To..."/>
+				        </div>
+				      </li>
 
-					  <form className="form-inline my-2 my-lg-0">
-					    <div className="input-group">
-					      <div className="input-group-prepend">
-					        <span className="input-group-text">Publication Vol. Range</span>
-					      </div>
-					      <input type="number" min="0" max="500" className="form-control" defaultValue="0"/>
-					      <input type="number" min="0" max="500" className="form-control mr-sm-2" defaultValue="500"/>
-					    </div>
-					  </form>
-
-					  <form className="form-inline my-2 my-lg-0">
-					    <div className="input-group">
-					      <div className="input-group-prepend">
-					        <span className="input-group-text">Author Vol. Range</span>
-					      </div>
-					      <input type="number" min="0" max="500" className="form-control" defaultValue="0"/>
-					      <input type="number" min="0" max="500" className="form-control" defaultValue="500"/>
-					    </div>
-					  </form>
-
+				      <li className="nav-item dropdown">
+				        <a className="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+				          Tags
+				        </a>
+				        <div className="dropdown-menu" aria-labelledby="navbarDropdown">
+				          <a className="dropdown-item" href="#">All</a>
+				          <div className="dropdown-divider"></div>
+				          <form>
+				          <a href="#" className="dropdown-item"><input type="checkbox"/>&nbsp;CRISPR</a>
+				          <a href="#" className="dropdown-item"><input type="checkbox"/>&nbsp;Diagnostics</a>
+				          <a href="#" className="dropdown-item"><input type="checkbox"/>&nbsp;Mol-Bio</a>
+				          <a href="#" className="dropdown-item"><input type="checkbox"/>&nbsp;Genetics</a>
+				          <a href="#" className="dropdown-item"><input type="checkbox"/>&nbsp;Clinical</a>
+				          <a href="#" className="dropdown-item"><input type="checkbox"/>&nbsp;Hospital</a>
+				          </form>      	
+				        </div>
+				      </li>
 				    </ul>
 				  </div>
 				</nav>

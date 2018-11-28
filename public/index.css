@@ -4,6 +4,9 @@
 
 .dropdown-menu {         
 	max-height: 450px;
+	width: 300px;
+	padding: 5%;
+	overflow-x: auto;
 	overflow-y: auto;
 }
 

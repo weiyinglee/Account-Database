@@ -3,8 +3,8 @@ import React from 'react'
 class DataTable extends React.Component {
 	render() {
 		return (
-			<table class="table container">
-			  <thead class="thead-light">
+			<table className="table container">
+			  <thead className="thead-light">
 			    <tr>
 			      <th scope="col">Account Name</th>
 			      <th scope="col">Account Type</th>
