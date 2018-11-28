@@ -2,6 +2,15 @@
 	text-align: center;
 }
 
+#table {
+	padding: 2%;
+	margin: 2%;
+}
+
+.card {
+	margin: 1%;
+}
+
 .dropdown-menu {         
 	max-height: 450px;
 	width: 300px;

@@ -45,34 +45,39 @@ class DataTable extends React.Component {
 		}
 
 		return (
-			<table className="table">
-			  <thead className="thead-light">
-			    <tr>
-			      <th scope="col">Account Name</th>
-			      <th scope="col">Account Type</th>
-			      <th scope="col">Publication Volume</th>
-			      <th scope="col">Author Volume</th>
-			      <th scope="col">Location</th>
-			      <th scope="col">Tags</th>
-			    </tr>
-			  </thead>
-			  <tbody>
-			  {
-			  	accounts.map((account, index) => {
-			  		return (
-					    <tr key={index}>
-					      <th scope="row">{account.name}</th>
-					      <td>{account.country}</td>
-					      <td>{account.public}</td>
-					      <td>{account.author}</td>
-					      <td>{account.type}</td>
-					      <td>{account.tags}</td>
-					    </tr>
-			  		)
-			  	})
-			  }
-			  </tbody>
-			</table>
+			<div className="row" id="table">
+				{
+					accounts.map((account, index) => {
+						return (
+							<div className="col-sm-12">
+								<div className="card" key={index}>
+								  <div className="card-header">
+								   	<h4>{account.name} <button className="btn btn-outline-dark btn-sm">More</button></h4>
+								  </div>
+
+								  <div className="card-body">
+								    <h5 className="card-title">Type: </h5>
+								    <p className="card-text">{account.type}</p>
+								    <hr/>
+								    <h5 className="card-title">Publication Volume: </h5>
+								    <p className="card-text">{account.public}</p>
+								    <hr/>
+								   	<h5 className="card-title">Author Volume: </h5>
+								    <p className="card-text">{account.author}</p>
+								    <hr/>
+								    <h5 className="card-title">Location: </h5>
+								    <p className="card-text">{account.country}</p>
+								    <hr/>
+								    <h5 className="card-title">Tags: </h5>
+								    <p className="card-text">{account.tags}</p>
+								  </div>
+								</div>
+
+							</div>
+						)
+					})
+				}
+			</div>
 		)
 	}
 }
