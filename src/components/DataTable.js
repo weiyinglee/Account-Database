@@ -50,7 +50,7 @@ class DataTable extends React.Component {
 
 		//prevent page out of bound
 		if(pageNumber <= 0) pageNumber = 1
-		else if(pageNumber > 100) pageNumber = 100
+		else if(pageNumber > 50) pageNumber = 50
 
 		//update the page number
 		this.setState({ pageNumber })
@@ -61,7 +61,7 @@ class DataTable extends React.Component {
 		let value = e.target.value
 
 		//prevent page out of bound
-		if(value > 100) value = 100
+		if(value > 50) value = 50
 		else if(value <= 0 || value == '') value = 1
 
 		//update the page number
@@ -71,8 +71,8 @@ class DataTable extends React.Component {
 	render() {
 		const { accounts, pageNumber, error } = this.state
 
-		let endEntry = pageNumber * 5
-		let startEntry = endEntry - 5
+		let endEntry = pageNumber * 10
+		let startEntry = endEntry - 10
 
 		//handle error message page
 		if(error) {
@@ -89,7 +89,7 @@ class DataTable extends React.Component {
 				        <span className="sr-only">Previous</span>
 				      </a>
 				    </li>
-					<li className="page-item">Page { pageNumber } / 100</li>
+					<li className="page-item">Page { pageNumber } / 50</li>
 				    <li className="page-item">
 				      <a href="#" aria-label="Next" className="text-dark" onClick={this.changePageNumber.bind(this, true)}>
 				        <span aria-hidden="true">&raquo;</span>
