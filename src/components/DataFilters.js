@@ -1,3 +1,6 @@
+/* eslint-disable */
+
+//import dependencies
 import React from 'react'
 
 class DataFilters extends React.Component {

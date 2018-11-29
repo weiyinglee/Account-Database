@@ -1,3 +1,5 @@
+/* eslint-disable */
+
 //import dependienies
 import React from 'react'
 import config from '../config'
@@ -7,9 +9,12 @@ class DataTable extends React.Component {
 
 	constructor() {
 		super()
+		this.minimunPage = 1
+		this.numberOfShowPerPage = 10
 		this.state = {
 			accounts: [],
 			pageNumber: 1,
+			maximumPage: 1,
 			error: null
 		}
 	}
@@ -30,8 +35,8 @@ class DataTable extends React.Component {
 			  if (data) {
 			    const accounts = data.accounts;
 			    this.setState({ 
-			    	accounts: accounts,
-			    	showTable: new Array(accounts.length).fill(false)
+			    	accounts,
+			    	maximumPage: Math.ceil(accounts.length/this.numberOfShowPerPage)
 			    });
 			  } else {
 			    this.setState({ error });
@@ -44,13 +49,15 @@ class DataTable extends React.Component {
 	//handle the increment/decrement of page
 	changePageNumber(isIncrement) {
 		let pageNumber = parseInt(this.state.pageNumber)
+		let maximumPage = this.state.maximumPage
+		let minimunPage = this.minimunPage
 
 		if(isIncrement) pageNumber++
 		else pageNumber--
 
 		//prevent page out of bound
-		if(pageNumber <= 0) pageNumber = 1
-		else if(pageNumber > 50) pageNumber = 50
+		if(pageNumber <= 0) pageNumber = minimunPage
+		else if(pageNumber > maximumPage) pageNumber = maximumPage
 
 		//update the page number
 		this.setState({ pageNumber })
@@ -58,21 +65,23 @@ class DataTable extends React.Component {
 
 	//handle the input onchange for page
 	handleChangePageNumber(e) {
-		let value = e.target.value
+		let pageNumber = e.target.value
+		let maximumPage = this.state.maximumPage
+	 	let minimunPage = this.minimunPage
 
 		//prevent page out of bound
-		if(value > 50) value = 50
-		else if(value <= 0 || value == '') value = 1
+		if(pageNumber > maximumPage) pageNumber = maximumPage
+		else if(pageNumber <= 0 || pageNumber == '') pageNumber = minimunPage
 
 		//update the page number
-		this.setState({ pageNumber: value })
+		this.setState({ pageNumber })
 	}
 
 	render() {
-		const { accounts, pageNumber, error } = this.state
+		const { accounts, pageNumber, maximumPage, error } = this.state
 
-		let endEntry = pageNumber * 10
-		let startEntry = endEntry - 10
+		let endEntry = pageNumber * this.numberOfShowPerPage
+		let startEntry = endEntry - this.numberOfShowPerPage
 
 		//handle error message page
 		if(error) {
@@ -89,7 +98,7 @@ class DataTable extends React.Component {
 				        <span className="sr-only">Previous</span>
 				      </a>
 				    </li>
-					<li className="page-item">Page { pageNumber } / 50</li>
+					<li className="page-item">Page { pageNumber } / { maximumPage }</li>
 				    <li className="page-item">
 				      <a href="#" aria-label="Next" className="text-dark" onClick={this.changePageNumber.bind(this, true)}>
 				        <span aria-hidden="true">&raquo;</span>
