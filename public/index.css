@@ -13,14 +13,16 @@
 	margin: 2%;
 }
 
-#pages {
-	width: 50%;
-	margin: 0 auto;
-	margin-top: 5%;
+.page-item {
+	padding: 1%;
 }
 
 #page-header {
 	text-align: center;
+}
+
+#page-input {
+	width: 100px;
 }
 
 .card {

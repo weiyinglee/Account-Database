@@ -9,7 +9,7 @@ class DataTable extends React.Component {
 		super()
 		this.state = {
 			accounts: [],
-			showTable: [],
+			pageNumber: 1,
 			error: null
 		}
 	}
@@ -41,21 +41,57 @@ class DataTable extends React.Component {
 		});
 	}
 
-	changeShow(index) {
-		const showTable = this.state.showTable
-		showTable[index] = !showTable[index]
-		this.setState({ showTable })
+	changePageNumber(isIncrement, val) {
+		let pageNumber = this.state.pageNumber
+
+		if(isIncrement) pageNumber += val
+		else pageNumber = val
+
+		if(pageNumber <= 0) pageNumber = 1
+		else if(pageNumber > 50) pageNumber = 50
+
+		this.setState({ pageNumber })
+	}
+
+	handleChangePageNumber(e) {
+		let value = e.target.value
+
+		if(value > 50) value = 50
+		else if(value <= 0 || value == '') value = 1
+
+		this.setState({ pageNumber: value })
 	}
 
 	render() {
-		const { accounts, error } = this.state
+		const { accounts, pageNumber, error } = this.state
 
+		//handle error message page
 		if(error) {
 			return <div>{this.state.error}</div>
 		}
 
 		return (
 			<div>
+				<nav aria-label="Page navigation example">
+				  <ul className="pagination">
+				    <li className="page-item">
+				      <a href="#" aria-label="Previous" className="text-dark" onClick={this.changePageNumber.bind(this, true, -1)}>
+				        <span aria-hidden="true">&laquo;</span>
+				        <span className="sr-only">Previous</span>
+				      </a>
+				    </li>
+					<li className="page-item">Page { pageNumber } / 50</li>
+				    <li className="page-item">
+				      <a href="#" aria-label="Next" className="text-dark" onClick={this.changePageNumber.bind(this, true, 1)}>
+				        <span aria-hidden="true">&raquo;</span>
+				        <span className="sr-only">Next</span>
+				      </a>
+				    </li>
+				    <li className="page-item">
+						<input type="number" id="page-input" min="1" max="50" placeholder="Enter page" onChange={this.handleChangePageNumber.bind(this)}/>
+				    </li>
+				  </ul>
+				</nav>
 				<table className="table">
 				  <thead className="thead-light">
 				    <tr className="d-flex">
@@ -85,34 +121,6 @@ class DataTable extends React.Component {
 				   }
 				  </tbody>
 				</table>
-
-				<nav id="pages" aria-label="Page navigation example">
-				  <ul class="pagination">
-				    <li class="page-item">
-				      <a class="page-link" href="#" aria-label="Previous">
-				        <span aria-hidden="true">&laquo;</span>
-				        <span class="sr-only">Previous</span>
-				      </a>
-				    </li>
-				    <li class="page-item"><a class="page-link" href="#">1</a></li>
-				    <li class="page-item"><a class="page-link" href="#">2</a></li>
-				    <li class="page-item"><a class="page-link" href="#">3</a></li>
-				    <li class="page-item"><a class="page-link" href="#">4</a></li>
-				    <li class="page-item"><a class="page-link" href="#">5</a></li>
-				    <li class="page-item"><a class="page-link" href="#">6</a></li>
-				    <li class="page-item"><a class="page-link" href="#">7</a></li>
-				    <li class="page-item"><a class="page-link" href="#">8</a></li>
-				    <li class="page-item"><a class="page-link" href="#">9</a></li>
-				    <li class="page-item"><a class="page-link" href="#">10</a></li>
-				    <li class="page-item">
-				      <a class="page-link" href="#" aria-label="Next">
-				        <span aria-hidden="true">&raquo;</span>
-				        <span class="sr-only">Next</span>
-				      </a>
-				    </li>
-				  </ul>
-				  <h6 id="page-header">Page 1 / 10</h6>
-				</nav>
 			</div>
 		)
 	}

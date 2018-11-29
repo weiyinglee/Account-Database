@@ -9,7 +9,6 @@ class Layout extends React.Component {
 	render() {
 		return (
 			<div className="container">
-				<h1 id="app-title">Account Database</h1>
 				<DataFilters />
 				<DataTable />
 			</div>
