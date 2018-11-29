@@ -9,6 +9,7 @@ class DataTable extends React.Component {
 		super()
 		this.state = {
 			accounts: [],
+			showTable: [],
 			error: null
 		}
 	}
@@ -28,13 +29,22 @@ class DataTable extends React.Component {
 		    load((data, error) => {
 			  if (data) {
 			    const accounts = data.accounts;
-			    this.setState({ accounts });
+			    this.setState({ 
+			    	accounts: accounts,
+			    	showTable: new Array(accounts.length).fill(false)
+			    });
 			  } else {
 			    this.setState({ error });
 			  }
 			})
 		  })
 		});
+	}
+
+	changeShow(index) {
+		const showTable = this.state.showTable
+		showTable[index] = !showTable[index]
+		this.setState({ showTable })
 	}
 
 	render() {
@@ -45,38 +55,64 @@ class DataTable extends React.Component {
 		}
 
 		return (
-			<div className="row" id="table">
-				{
-					accounts.map((account, index) => {
-						return (
-							<div className="col-sm-12">
-								<div className="card" key={index}>
-								  <div className="card-header">
-								   	<h4>{account.name} <button className="btn btn-outline-dark btn-sm">More</button></h4>
-								  </div>
+			<div>
+				<table className="table">
+				  <thead className="thead-light">
+				    <tr className="d-flex">
+				      <th className="col-4" scope="col">Instutition</th>
+				      <th className="col-2" scope="col">Type</th>
+				      <th className="col-2" scope="col">Publication Vol.</th>
+				      <th className="col-2" scope="col">Author Vol.</th>
+				      <th className="col-1" scope="col">Location</th>
+				      <th className="col-1" scope="col">Tags</th>
+				    </tr>
+				  </thead>
+				  <tbody>
+				   {
+				   		accounts.slice(0, 50).map((account, index) => {
+				   			return (
+							    <tr className="d-flex">
+							      <th className="col-4" scope="row">{account.name}</th>
+							      <td className="col-2">{account.type}</td>
+							      <td className="col-2">{account.public}</td>
+							      <td className="col-2">{account.author}</td>
+							      <td className="col-1">{account.country}</td>
+							      <td className="col-1">{account.tags}</td>
+							    </tr>
+				   			)
+				   		})
 
-								  <div className="card-body">
-								    <h5 className="card-title">Type: </h5>
-								    <p className="card-text">{account.type}</p>
-								    <hr/>
-								    <h5 className="card-title">Publication Volume: </h5>
-								    <p className="card-text">{account.public}</p>
-								    <hr/>
-								   	<h5 className="card-title">Author Volume: </h5>
-								    <p className="card-text">{account.author}</p>
-								    <hr/>
-								    <h5 className="card-title">Location: </h5>
-								    <p className="card-text">{account.country}</p>
-								    <hr/>
-								    <h5 className="card-title">Tags: </h5>
-								    <p className="card-text">{account.tags}</p>
-								  </div>
-								</div>
+				   }
+				  </tbody>
+				</table>
 
-							</div>
-						)
-					})
-				}
+				<nav id="pages" aria-label="Page navigation example">
+				  <ul class="pagination">
+				    <li class="page-item">
+				      <a class="page-link" href="#" aria-label="Previous">
+				        <span aria-hidden="true">&laquo;</span>
+				        <span class="sr-only">Previous</span>
+				      </a>
+				    </li>
+				    <li class="page-item"><a class="page-link" href="#">1</a></li>
+				    <li class="page-item"><a class="page-link" href="#">2</a></li>
+				    <li class="page-item"><a class="page-link" href="#">3</a></li>
+				    <li class="page-item"><a class="page-link" href="#">4</a></li>
+				    <li class="page-item"><a class="page-link" href="#">5</a></li>
+				    <li class="page-item"><a class="page-link" href="#">6</a></li>
+				    <li class="page-item"><a class="page-link" href="#">7</a></li>
+				    <li class="page-item"><a class="page-link" href="#">8</a></li>
+				    <li class="page-item"><a class="page-link" href="#">9</a></li>
+				    <li class="page-item"><a class="page-link" href="#">10</a></li>
+				    <li class="page-item">
+				      <a class="page-link" href="#" aria-label="Next">
+				        <span aria-hidden="true">&raquo;</span>
+				        <span class="sr-only">Next</span>
+				      </a>
+				    </li>
+				  </ul>
+				  <h6 id="page-header">Page 1 / 10</h6>
+				</nav>
 			</div>
 		)
 	}

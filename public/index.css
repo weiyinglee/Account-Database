@@ -2,9 +2,25 @@
 	text-align: center;
 }
 
+.navbar .nav-item{
+    display: table;
+    margin-left: auto;
+    margin-right: auto;
+}
+
 #table {
 	padding: 2%;
 	margin: 2%;
+}
+
+#pages {
+	width: 50%;
+	margin: 0 auto;
+	margin-top: 5%;
+}
+
+#page-header {
+	text-align: center;
 }
 
 .card {
