@@ -41,29 +41,38 @@ class DataTable extends React.Component {
 		});
 	}
 
-	changePageNumber(isIncrement, val) {
-		let pageNumber = this.state.pageNumber
+	//handle the increment/decrement of page
+	changePageNumber(isIncrement) {
+		let pageNumber = parseInt(this.state.pageNumber)
 
-		if(isIncrement) pageNumber += val
-		else pageNumber = val
+		if(isIncrement) pageNumber++
+		else pageNumber--
 
+		//prevent page out of bound
 		if(pageNumber <= 0) pageNumber = 1
-		else if(pageNumber > 50) pageNumber = 50
+		else if(pageNumber > 100) pageNumber = 100
 
+		//update the page number
 		this.setState({ pageNumber })
 	}
 
+	//handle the input onchange for page
 	handleChangePageNumber(e) {
 		let value = e.target.value
 
-		if(value > 50) value = 50
+		//prevent page out of bound
+		if(value > 100) value = 100
 		else if(value <= 0 || value == '') value = 1
 
+		//update the page number
 		this.setState({ pageNumber: value })
 	}
 
 	render() {
 		const { accounts, pageNumber, error } = this.state
+
+		let endEntry = pageNumber * 5
+		let startEntry = endEntry - 5
 
 		//handle error message page
 		if(error) {
@@ -75,14 +84,14 @@ class DataTable extends React.Component {
 				<nav aria-label="Page navigation example">
 				  <ul className="pagination">
 				    <li className="page-item">
-				      <a href="#" aria-label="Previous" className="text-dark" onClick={this.changePageNumber.bind(this, true, -1)}>
+				      <a href="#" aria-label="Previous" className="text-dark" onClick={this.changePageNumber.bind(this, false)}>
 				        <span aria-hidden="true">&laquo;</span>
 				        <span className="sr-only">Previous</span>
 				      </a>
 				    </li>
-					<li className="page-item">Page { pageNumber } / 50</li>
+					<li className="page-item">Page { pageNumber } / 100</li>
 				    <li className="page-item">
-				      <a href="#" aria-label="Next" className="text-dark" onClick={this.changePageNumber.bind(this, true, 1)}>
+				      <a href="#" aria-label="Next" className="text-dark" onClick={this.changePageNumber.bind(this, true)}>
 				        <span aria-hidden="true">&raquo;</span>
 				        <span className="sr-only">Next</span>
 				      </a>
@@ -95,24 +104,24 @@ class DataTable extends React.Component {
 				<table className="table">
 				  <thead className="thead-light">
 				    <tr className="d-flex">
-				      <th className="col-4" scope="col">Instutition</th>
+				      <th className="col-3" scope="col">Instutition</th>
 				      <th className="col-2" scope="col">Type</th>
 				      <th className="col-2" scope="col">Publication Vol.</th>
 				      <th className="col-2" scope="col">Author Vol.</th>
-				      <th className="col-1" scope="col">Location</th>
+				      <th className="col-2" scope="col">Location</th>
 				      <th className="col-1" scope="col">Tags</th>
 				    </tr>
 				  </thead>
 				  <tbody>
 				   {
-				   		accounts.slice(0, 50).map((account, index) => {
+				   		accounts.slice(startEntry, endEntry).map((account, index) => {
 				   			return (
 							    <tr className="d-flex">
-							      <th className="col-4" scope="row">{account.name}</th>
+							      <th className="col-3" scope="row">{account.name}</th>
 							      <td className="col-2">{account.type}</td>
 							      <td className="col-2">{account.public}</td>
 							      <td className="col-2">{account.author}</td>
-							      <td className="col-1">{account.country}</td>
+							      <td className="col-2">{account.country}</td>
 							      <td className="col-1">{account.tags}</td>
 							    </tr>
 				   			)
