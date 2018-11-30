@@ -57,7 +57,7 @@ class DataTable extends React.Component {
 		let filter = nextProps.filters
 		let filteredAccounts = []
 
-		const matchesTags = (arr1, arr2) => {
+		const matches = (arr1, arr2) => {
 			for(let i = 0; i < arr2.length; i++) {
 				if(!arr1.includes(arr2[i])) return false
 			}
@@ -71,7 +71,7 @@ class DataTable extends React.Component {
 			if(filter.country.length != 0 && !filter.country.includes(account.country)) continue
 			if(filter.public[0] > account.public || filter.public[1] < account.public) continue
 			if(filter.author[0] > account.author || filter.author[1] < account.author) continue
-			if(filter.tags.length != 0 && !matchesTags(account.tags.split(', '), filter.tags)) continue
+			if(filter.tags.length != 0 && !matches(account.tags.split(', '), filter.tags)) continue
 
 			filteredAccounts.push(account)
 		}

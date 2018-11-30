@@ -23,6 +23,14 @@ class DataFilters extends React.Component {
 	    } 
 	}
 
+	resetLocation() {
+	   let boxes = document.getElementsByClassName("locationCheckbox");
+	   for(let i = 0; i < boxes.length; i++) {
+	   	  this.props.handleLocationFilter(boxes[i].value, false)
+	      boxes[i].checked = false;
+	    } 
+	}
+
 	resetPublic() {
 		this.refs.publicMinForm.value = ""
 		this.refs.publicMaxForm.value = ""
@@ -57,6 +65,14 @@ class DataFilters extends React.Component {
 			this.props.handleTagsFilter(e.target.value, true)
 		} else {
 			this.props.handleTagsFilter(e.target.value, false)
+		}
+	}
+
+	handleLocationFilter(e) {
+		if(e.target.checked) {
+			this.props.handleLocationFilter(e.target.value, true)
+		}else {
+			this.props.handleLocationFilter(e.target.value, false)
 		}
 	}
 
@@ -102,50 +118,54 @@ class DataFilters extends React.Component {
 			          Location
 			        </a>
 			        <div className="dropdown-menu" aria-labelledby="navbarDropdown">
-			          <a className="dropdown-item" href="#">All</a>
+			          <a className="dropdown-item" href="#" onClick={this.resetLocation.bind(this)}>All</a>
 					  <div className="dropdown-divider"></div>
 					  <form>
-					  <a className="dropdown-item" href="#"><input type="checkbox"/>&nbsp;Australia</a>
+					  <a className="dropdown-item" href="#"><input type="checkbox" className="locationCheckbox" value="Australia" onChange={this.handleLocationFilter.bind(this)}/>&nbsp;Australia</a>
 					  <div className="dropdown-divider"></div>
-					  <a className="dropdown-item" href="#"><input type="checkbox"/>&nbsp;Belgium</a>
+					  <a className="dropdown-item" href="#"><input type="checkbox" className="locationCheckbox" value="Belgium" onChange={this.handleLocationFilter.bind(this)}/>&nbsp;Belgium</a>
+					  <a className="dropdown-item" href="#"><input type="checkbox" className="locationCheckbox" value="Brazil" onChange={this.handleLocationFilter.bind(this)}/>&nbsp;Brazil</a>
 					  <div className="dropdown-divider"></div>
-			          <a className="dropdown-item" href="#"><input type="checkbox"/>&nbsp;Canada</a>
-			          <a className="dropdown-item" href="#"><input type="checkbox"/>&nbsp;China</a>
-			          <a className="dropdown-item" href="#"><input type="checkbox"/>&nbsp;Denmark</a>
+			          <a className="dropdown-item" href="#"><input type="checkbox" className="locationCheckbox" value="Canada" onChange={this.handleLocationFilter.bind(this)}/>&nbsp;Canada</a>
+			          <a className="dropdown-item" href="#"><input type="checkbox" className="locationCheckbox" value="China" onChange={this.handleLocationFilter.bind(this)}/>&nbsp;China</a>
+			          <a className="dropdown-item" href="#"><input type="checkbox" className="locationCheckbox" value="Chile" onChange={this.handleLocationFilter.bind(this)}/>&nbsp;Chile</a>
 			          <div className="dropdown-divider"></div>
-			          <a className="dropdown-item" href="#"><input type="checkbox"/>&nbsp;France</a>
+			          <a className="dropdown-item" href="#"><input type="checkbox" className="locationCheckbox" value="Denmark" onChange={this.handleLocationFilter.bind(this)}/>&nbsp;Denmark</a>
 			          <div className="dropdown-divider"></div>
-			          <a className="dropdown-item" href="#"><input type="checkbox"/>&nbsp;Germany</a>
+			          <a className="dropdown-item" href="#"><input type="checkbox" className="locationCheckbox" value="Finland" onChange={this.handleLocationFilter.bind(this)}/>&nbsp;Finland</a>
+			          <a className="dropdown-item" href="#"><input type="checkbox" className="locationCheckbox" value="France" onChange={this.handleLocationFilter.bind(this)}/>&nbsp;France</a>
 			          <div className="dropdown-divider"></div>
-			          <a className="dropdown-item" href="#"><input type="checkbox"/>&nbsp;Hong Kong</a>
-			          <a className="dropdown-item" href="#"><input type="checkbox"/>&nbsp;Hungary</a>
+			          <a className="dropdown-item" href="#"><input type="checkbox" className="locationCheckbox" value="Germany" onChange={this.handleLocationFilter.bind(this)}/>&nbsp;Germany</a>
 			          <div className="dropdown-divider"></div>
-			          <a className="dropdown-item" href="#"><input type="checkbox"/>&nbsp;Israel</a>
-			          <a className="dropdown-item" href="#"><input type="checkbox"/>&nbsp;India</a>
-			          <a className="dropdown-item" href="#"><input type="checkbox"/>&nbsp;Ireland</a>
-			          <a className="dropdown-item" href="#"><input type="checkbox"/>&nbsp;Italy</a>
+			          <a className="dropdown-item" href="#"><input type="checkbox" className="locationCheckbox" value="Hong Kong" onChange={this.handleLocationFilter.bind(this)}/>&nbsp;Hong Kong</a>
+			          <a className="dropdown-item" href="#"><input type="checkbox" className="locationCheckbox" value="Hungary" onChange={this.handleLocationFilter.bind(this)}/>&nbsp;Hungary</a>
 			          <div className="dropdown-divider"></div>
-			          <a className="dropdown-item" href="#"><input type="checkbox"/>&nbsp;Japan</a>
+			          <a className="dropdown-item" href="#"><input type="checkbox" className="locationCheckbox" value="Israel" onChange={this.handleLocationFilter.bind(this)}/>&nbsp;Israel</a>
+			          <a className="dropdown-item" href="#"><input type="checkbox" className="locationCheckbox" value="India" onChange={this.handleLocationFilter.bind(this)}/>&nbsp;India</a>
+			          <a className="dropdown-item" href="#"><input type="checkbox" className="locationCheckbox" value="Ireland" onChange={this.handleLocationFilter.bind(this)}/>&nbsp;Ireland</a>
+			          <a className="dropdown-item" href="#"><input type="checkbox" className="locationCheckbox" value="Italy" onChange={this.handleLocationFilter.bind(this)}/>&nbsp;Italy</a>
 			          <div className="dropdown-divider"></div>
-			          <a className="dropdown-item" href="#"><input type="checkbox"/>&nbsp;Lithuania</a>
+			          <a className="dropdown-item" href="#"><input type="checkbox" className="locationCheckbox" value="Japan" onChange={this.handleLocationFilter.bind(this)}/>&nbsp;Japan</a>
 			          <div className="dropdown-divider"></div>
-					  <a className="dropdown-item" href="#"><input type="checkbox"/>&nbsp;Netherland</a>
-			          <a className="dropdown-item" href="#"><input type="checkbox"/>&nbsp;New Zealand</a>
+			          <a className="dropdown-item" href="#"><input type="checkbox" className="locationCheckbox" value="Lithuania" onChange={this.handleLocationFilter.bind(this)}/>&nbsp;Lithuania</a>
 			          <div className="dropdown-divider"></div>
-			          <a className="dropdown-item" href="#"><input type="checkbox"/>&nbsp;Russia</a>
+					  <a className="dropdown-item" href="#"><input type="checkbox" className="locationCheckbox" value="Netherlands" onChange={this.handleLocationFilter.bind(this)}/>&nbsp;Netherlands</a>
+			          <a className="dropdown-item" href="#"><input type="checkbox" className="locationCheckbox" value="New Zealand" onChange={this.handleLocationFilter.bind(this)}/>&nbsp;New Zealand</a>
 			          <div className="dropdown-divider"></div>
-			          <a className="dropdown-item" href="#"><input type="checkbox"/>&nbsp;Saudi Arabia</a>
-			          <a className="dropdown-item" href="#"><input type="checkbox"/>&nbsp;Singapore</a>
-			          <a className="dropdown-item" href="#"><input type="checkbox"/>&nbsp;Slovenia</a>
-			          <a className="dropdown-item" href="#"><input type="checkbox"/>&nbsp;South Korea</a>
-			          <a className="dropdown-item" href="#"><input type="checkbox"/>&nbsp;Spain</a>
-			          <a className="dropdown-item" href="#"><input type="checkbox"/>&nbsp;Switzerland</a>
-			          <a className="dropdown-item" href="#"><input type="checkbox"/>&nbsp;Sweden</a>
+			          <a className="dropdown-item" href="#"><input type="checkbox" className="locationCheckbox" value="Russia" onChange={this.handleLocationFilter.bind(this)}/>&nbsp;Russia</a>
 			          <div className="dropdown-divider"></div>
-			          <a className="dropdown-item" href="#"><input type="checkbox"/>&nbsp;Taiwan</a>
+			          <a className="dropdown-item" href="#"><input type="checkbox" className="locationCheckbox" value="Saudi Arabia" onChange={this.handleLocationFilter.bind(this)}/>&nbsp;Saudi Arabia</a>
+			          <a className="dropdown-item" href="#"><input type="checkbox" className="locationCheckbox" value="Singapore" onChange={this.handleLocationFilter.bind(this)}/>&nbsp;Singapore</a>
+			          <a className="dropdown-item" href="#"><input type="checkbox" className="locationCheckbox" value="Slovenia" onChange={this.handleLocationFilter.bind(this)}/>&nbsp;Slovenia</a>
+			          <a className="dropdown-item" href="#"><input type="checkbox" className="locationCheckbox" value="South Korea" onChange={this.handleLocationFilter.bind(this)}/>&nbsp;South Korea</a>
+			          <a className="dropdown-item" href="#"><input type="checkbox" className="locationCheckbox" value="Spain" onChange={this.handleLocationFilter.bind(this)}/>&nbsp;Spain</a>
+			          <a className="dropdown-item" href="#"><input type="checkbox" className="locationCheckbox" value="Switzerland" onChange={this.handleLocationFilter.bind(this)}/>&nbsp;Switzerland</a>
+			          <a className="dropdown-item" href="#"><input type="checkbox" className="locationCheckbox" value="Sweden" onChange={this.handleLocationFilter.bind(this)}/>&nbsp;Sweden</a>
 			          <div className="dropdown-divider"></div>
-			          <a className="dropdown-item" href="#"><input type="checkbox"/>&nbsp;United Kingdom</a>
-			          <a className="dropdown-item" href="#"><input type="checkbox"/>&nbsp;United States</a>
+			          <a className="dropdown-item" href="#"><input type="checkbox" className="locationCheckbox" value="Taiwan" onChange={this.handleLocationFilter.bind(this)}/>&nbsp;Taiwan</a>
+			          <div className="dropdown-divider"></div>
+			          <a className="dropdown-item" href="#"><input type="checkbox" className="locationCheckbox" value="United Kingdom" onChange={this.handleLocationFilter.bind(this)}/>&nbsp;United Kingdom</a>
+			          <a className="dropdown-item" href="#"><input type="checkbox" className="locationCheckbox" value="United States" onChange={this.handleLocationFilter.bind(this)}/>&nbsp;United States</a>
 			          </form>
 			        </div>
 			      </li>		

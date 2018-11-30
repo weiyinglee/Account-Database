@@ -32,8 +32,11 @@ class Layout extends React.Component {
 		this.setState({ filters })
 	}
 
-	handleLocationFilter() {
-
+	handleLocationFilter(item, isAdd) {
+		let filters = this.state.filters
+		if(isAdd) filters.country.push(item)
+		else filters.country.splice(filters.country.indexOf(item), 1)	
+		this.setState({ filters })		
 	}
 
 	handlePublicationFilter(min, max) {
