@@ -7,18 +7,20 @@ import { load } from '../helpers/spreadsheet'
 
 class DataTable extends React.Component {
 
-	constructor() {
-		super()
+	constructor(props) {
+		super(props)
 		this.minimunPage = 1
 		this.numberOfShowPerPage = 10
 		this.state = {
 			accounts: [],
+			filteredAccounts: [],
 			pageNumber: 1,
 			maximumPage: 1,
 			error: null
 		}
 	}
 
+	//load the data from google sheets
 	componentDidMount() {
 	  	// 1. Load the JavaScript client library.
 	  	window.gapi.load("client", () => {
@@ -33,17 +35,59 @@ class DataTable extends React.Component {
 		    // 3. Initialize and make the API request.
 		    load((data, error) => {
 			  if (data) {
-			    const accounts = data.accounts;
+			    let accounts = data.accounts
+			    let filteredAccounts = accounts
 			    this.setState({ 
 			    	accounts,
-			    	maximumPage: Math.ceil(accounts.length/this.numberOfShowPerPage)
+			    	filteredAccounts,
+			    	maximumPage: Math.ceil(accounts.length / this.numberOfShowPerPage)
 			    });
 			  } else {
 			    this.setState({ error });
 			  }
 			})
 		  })
-		});
+		})		
+	}
+
+	//update the data after the filter
+	componentWillReceiveProps(nextProps) {
+
+		let { accounts } = this.state
+		let filter = nextProps.filters
+		let filteredAccounts = []
+
+		const matchesTags = (arr1, arr2) => {
+			for(let i = 0; i < arr2.length; i++) {
+				if(!arr1.includes(arr2[i])) return false
+			}
+			return true
+		}
+
+		for(let i = 0; i < accounts.length; i++) {
+			let account = accounts[i]
+
+			if(filter.type != null && account.type != filter.type) continue
+			if(filter.country.length != 0 && !filter.country.includes(account.country)) continue
+			if(filter.public[0] > account.public || filter.public[1] < account.public) continue
+			if(filter.author[0] > account.author || filter.author[1] < account.author) continue
+			if(filter.tags.length != 0 && !matchesTags(account.tags.split(', '), filter.tags)) continue
+
+			filteredAccounts.push(account)
+		}
+
+
+		let maximumPage = Math.ceil(filteredAccounts.length / this.numberOfShowPerPage)
+		if(maximumPage <= 0) maximumPage = 1
+
+		let pageNumber = this.state.pageNumber
+		if(pageNumber > maximumPage) pageNumber = maximumPage
+
+		this.setState({
+			filteredAccounts,
+			pageNumber,
+			maximumPage
+		})
 	}
 
 	//handle the increment/decrement of page
@@ -78,7 +122,7 @@ class DataTable extends React.Component {
 	}
 
 	render() {
-		const { accounts, pageNumber, maximumPage, error } = this.state
+		const { accounts, filteredAccounts, pageNumber, maximumPage, error } = this.state
 
 		let endEntry = pageNumber * this.numberOfShowPerPage
 		let startEntry = endEntry - this.numberOfShowPerPage
@@ -123,9 +167,9 @@ class DataTable extends React.Component {
 				  </thead>
 				  <tbody>
 				   {
-				   		accounts.slice(startEntry, endEntry).map((account, index) => {
+				   		filteredAccounts.slice(startEntry, endEntry).map((account, index) => {
 				   			return (
-							    <tr className="d-flex">
+							    <tr className="d-flex" key={index}>
 							      <th className="col-3" scope="row">{account.name}</th>
 							      <td className="col-2">{account.type}</td>
 							      <td className="col-2">{account.public}</td>
