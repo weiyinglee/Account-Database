@@ -11,7 +11,7 @@ class Layout extends React.Component {
 		super(props)
 		this.state = {
 			filters: {
-				name: null,
+				name: "",
 				type: null,
 				country: [],
 				public: [0, 500],
@@ -22,8 +22,10 @@ class Layout extends React.Component {
 	}
 
 	//handle the filtering types
-	handleNameFilter() {
-
+	handleNameFilter(prefix) {
+		let filters = this.state.filters
+		filters.name = prefix
+		this.setState({ filters })
 	}
 
 	handleTypeFilter(type) {
@@ -58,6 +60,19 @@ class Layout extends React.Component {
 		this.setState({ filters })
 	}
 
+	reset() {
+		this.setState({
+			filters: {
+				name: "",
+				type: null,
+				country: [],
+				public: [0, 500],
+				author: [0, 500],
+				tags: []
+			}			
+		})
+	}
+
 	render() {
 		return (
 			<div className="container">
@@ -68,6 +83,7 @@ class Layout extends React.Component {
 					handlePublicationFilter={this.handlePublicationFilter.bind(this)}
 					handleAuthorFilter={this.handleAuthorFilter.bind(this)}
 					handleTagsFilter={this.handleTagsFilter.bind(this)}
+					reset={this.reset.bind(this)}
 				/>
 				<DataTable filters={this.state.filters} />
 			</div>

@@ -10,7 +10,7 @@ class DataTable extends React.Component {
 	constructor(props) {
 		super(props)
 		this.minimunPage = 1
-		this.numberOfShowPerPage = 10
+		this.numberOfShowPerPage = 6
 		this.state = {
 			accounts: [],
 			filteredAccounts: [],
@@ -64,9 +64,23 @@ class DataTable extends React.Component {
 			return true
 		}
 
+		const matchPrefix = (prefix, str) => {
+			prefix = prefix.toLowerCase()
+			str = str.toLowerCase()
+
+			console.log(prefix, str)
+
+			if(prefix.length > str.length) return false
+			for(let i = 0; i < prefix.length; i++) {
+				if(prefix[i] != str[i]) return false
+			}
+			return true
+		}
+
 		for(let i = 0; i < accounts.length; i++) {
 			let account = accounts[i]
 
+			if(filter.name != "" && !matchPrefix(filter.name, account.name)) continue
 			if(filter.type != null && account.type != filter.type) continue
 			if(filter.country.length != 0 && !filter.country.includes(account.country)) continue
 			if(filter.public[0] > account.public || filter.public[1] < account.public) continue
@@ -183,6 +197,7 @@ class DataTable extends React.Component {
 				   }
 				  </tbody>
 				</table>
+				<h6 id="count-result"> - {filteredAccounts.length} results -</h6>
 			</div>
 		)
 	}

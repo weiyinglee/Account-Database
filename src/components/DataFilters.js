@@ -15,6 +15,12 @@ class DataFilters extends React.Component {
 		}
 	}
 
+	//reset functions
+	resetName() {
+		this.refs.nameInput.value = ""
+		this.props.handleNameFilter('')
+	}
+
 	resetTags() {
 	   let boxes = document.getElementsByClassName("tagsCheckbox");
 	   for(let i = 0; i < boxes.length; i++) {
@@ -48,9 +54,23 @@ class DataFilters extends React.Component {
 	setAuthorMin(e) { this.setState({ author_min: e.target.value }) }
 	setAuthorMax(e) { this.setState({ author_max: e.target.value }) }
 
+
+	//event handler for filters
+	handleNameFilter(e) {
+		this.props.handleNameFilter(e.target.value)
+	}
+
 	handleTypeFilter(type) {
 		this.props.handleTypeFilter(type)
 	}
+
+	handleLocationFilter(e) {
+		if(e.target.checked) {
+			this.props.handleLocationFilter(e.target.value, true)
+		}else {
+			this.props.handleLocationFilter(e.target.value, false)
+		}
+	}	
 
 	handlePublicationFilter() {
 		this.props.handlePublicationFilter(this.state.public_min, this.state.public_max)
@@ -68,12 +88,13 @@ class DataFilters extends React.Component {
 		}
 	}
 
-	handleLocationFilter(e) {
-		if(e.target.checked) {
-			this.props.handleLocationFilter(e.target.value, true)
-		}else {
-			this.props.handleLocationFilter(e.target.value, false)
-		}
+	reset() {
+		this.resetName()
+		this.resetLocation()
+		this.resetPublic()
+		this.resetAuthor()
+		this.resetTags()
+		this.props.reset()
 	}
 
 	render() {
@@ -93,9 +114,9 @@ class DataFilters extends React.Component {
 			        </a>
 			        <div className="dropdown-menu" aria-labelledby="navbarDropdown">
 			        	<div className="input-group mb-3">
-						  <input type="text" className="form-control" placeholder="Enter Names"/>
+						  <input type="text" className="form-control" placeholder="Enter Names" onChange={this.handleNameFilter.bind(this)} ref="nameInput"/>
 						  <div className="input-group-append">
-						    <button className="btn btn-outline-secondary btn-sm">Search</button>
+						    <button className="btn btn-outline-secondary btn-sm" onClick={this.resetName.bind(this)}>Clear</button>
 						  </div>
 						</div>					        	
 			        </div>
@@ -205,7 +226,7 @@ class DataFilters extends React.Component {
 			          Tags
 			        </a>
 			        <div className="dropdown-menu" aria-labelledby="navbarDropdown">
-			          <a className="dropdown-item" href="#" onClick={this.resetTags.bind(this)}>Reset</a>
+			          <a className="dropdown-item" href="#" onClick={this.resetTags.bind(this)}>All</a>
 			          <div className="dropdown-divider"></div>
 			          <form>
 			          <a href="#" className="dropdown-item"><input type="checkbox" className="tagsCheckbox" value="CRISPR" onChange={this.handleTagsFilter.bind(this)}/>&nbsp;CRISPR</a>
@@ -216,6 +237,9 @@ class DataFilters extends React.Component {
 			          <a href="#" className="dropdown-item"><input type="checkbox" className="tagsCheckbox" value="Hospital" onChange={this.handleTagsFilter.bind(this)}/>&nbsp;Hospital</a>
 			          </form>      	
 			        </div>
+			      </li>
+			      <li className="nav-item">
+			      	<button className="btn btn-outline-dark btn-sm" onClick={this.reset.bind(this)}>Reset</button>
 			      </li>
 			    </ul>
 			  </div>
