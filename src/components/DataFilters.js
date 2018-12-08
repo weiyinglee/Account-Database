@@ -16,6 +16,11 @@ class DataFilters extends React.Component {
 		this.props.handleManufacturerFilter(e.target.value)
 	}
 
+	//handle the filters
+	handleFilterBy(e) {
+		this.props.handleFilterBy(e.target.value)
+	}
+
 
 	render() {
 		return (
@@ -40,8 +45,12 @@ class DataFilters extends React.Component {
 				        <div className="input-group-prepend">
 				          <span className="input-group-text">Sort By</span>
 				        </div>
-					    <select className="form-control">
-						  <option>Small select</option>
+					    <select className="form-control" onChange={this.handleFilterBy.bind(this)}>
+						  <option>Name</option>
+						  <option>Sensitivity</option>
+						  <option>TAT</option>
+						  <option>Regulatory</option>
+						  <option>Score</option>
 						</select>				        
 				    </div>		        	
 				</div>
@@ -49,7 +58,7 @@ class DataFilters extends React.Component {
 			    <ul className="navbar-nav">
 			      <li className="nav-item dropdown">
 			        <a className="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-			         Other filters
+			         FILTERS
 			        </a>
 			        <div className="dropdown-menu" aria-labelledby="navbarDropdown">				        	
 			        </div>

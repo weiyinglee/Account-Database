@@ -11,7 +11,8 @@ class Layout extends React.Component {
 		super(props)
 		this.state = {
 			filters: {
-				manufacturer: ""
+				manufacturer: "",
+				sortBy: ""
 			}
 		}
 	}
@@ -23,11 +24,19 @@ class Layout extends React.Component {
 		this.setState({ filters })
 	}
 
+	//handle the filters
+	handleFilterBy(type) {
+		let filters = this.state.filters
+		filters.sortBy = type
+		this.setState({ filters })
+	}
+
 	render() {
 		return (
 			<div className="container-fluid">
 				<DataFilters
-					handleManufacturerFilter={this.handleManufacturerFilter.bind(this)} 
+					handleManufacturerFilter={this.handleManufacturerFilter.bind(this)}
+					handleFilterBy={this.handleFilterBy.bind(this)} 
 				/>
 				<DataTable filters={this.state.filters} />
 			</div>

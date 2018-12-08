@@ -75,6 +75,7 @@ class DataTable extends React.Component {
 			return true
 		}
 
+		//filter by
 		for(let i = 0; i < DataSets.length; i++) {
 			let dataSet = DataSets[i]
 
@@ -83,6 +84,30 @@ class DataTable extends React.Component {
 			filteredDataSets.push(dataSet)
 		}
 
+		//sort by
+		filteredDataSets.sort((a, b) => {
+			switch(filter.sortBy) {
+				case 'Name':
+					if(a.manufacturer < b.manufacturer) return -1
+					else if(b.manufacturer < a.manufacturer) return 1
+					return 0
+					break
+				case 'Sensitivity':
+					return parseInt(b.sensitivity) - parseInt(a.sensitivity)
+					break
+				case 'TAT':
+					return parseInt(b.tat) - parseInt(a.tat)
+					break
+				case 'Regulatory':
+					return parseInt(b.regulatory) - parseInt(a.regulatory)
+					break
+				case 'Score':
+					return parseInt(b.score) - parseInt(a.score)
+					break
+				default:
+					break
+			}
+		})
 
 		let maximumPage = Math.ceil(filteredDataSets.length / this.numberOfShowPerPage)
 		if(maximumPage <= 0) maximumPage = 1
@@ -151,7 +176,7 @@ class DataTable extends React.Component {
 			let account = this.state.selected[i]
 			filteredDataSets.push(account)
 		}
-		this.setState({ filteredDataSets})
+		this.setState({ filteredDataSets })
 	}
 
 	render() {
