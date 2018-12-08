@@ -13,16 +13,17 @@ export function load(callback) {
       .then(
         response => {
           const data = response.result.values;
-          const accounts = data.map(account => ({
-            name: account[0],
-            country: account[1],
-            public: account[2],
-            author: account[3],
-            type: account[4],
-            tags: account[5]
+          const DataSets = data.map(dataSet => ({
+            manufacturer: dataSet[0],
+            product: dataSet[1],
+            description: dataSet[2],
+            sensitivity: dataSet[3],
+            tat: dataSet[4],
+            regulatory: dataSet[5],
+            score: dataSet[6]
           })) || [];
           callback({
-            accounts
+            DataSets
           });
         },
         response => {

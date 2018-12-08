@@ -10,18 +10,20 @@ class DataTable extends React.Component {
 	constructor(props) {
 		super(props)
 		this.minimunPage = 1
-		this.numberOfShowPerPage = 6
+		this.numberOfShowPerPage = 20
 		this.state = {
-			accounts: [],
-			filteredAccounts: [],
+			DataSets: [],
+			filteredDataSets: [],
 			pageNumber: 1,
 			maximumPage: 1,
+			beSelected: [],
+			selected: [],
 			error: null
 		}
 	}
 
 	//load the data from google sheets
-	componentDidMount() {
+	componentWillMount() {
 	  	// 1. Load the JavaScript client library.
 	  	window.gapi.load("client", () => {
 		  // 2. Initialize the JavaScript client library.
@@ -35,12 +37,14 @@ class DataTable extends React.Component {
 		    // 3. Initialize and make the API request.
 		    load((data, error) => {
 			  if (data) {
-			    let accounts = data.accounts
-			    let filteredAccounts = accounts
+			    let DataSets = data.DataSets
+			    let filteredDataSets = DataSets
 			    this.setState({ 
-			    	accounts,
-			    	filteredAccounts,
-			    	maximumPage: Math.ceil(accounts.length / this.numberOfShowPerPage)
+			    	DataSets,
+			    	filteredDataSets,
+			    	show: new Array(DataSets.length).fill(false),
+			    	beSelected: new Array(DataSets.length).fill(false),
+			    	maximumPage: Math.ceil(DataSets.length / this.numberOfShowPerPage)
 			    });
 			  } else {
 			    this.setState({ error });
@@ -53,16 +57,10 @@ class DataTable extends React.Component {
 	//update the data after the filter
 	componentWillReceiveProps(nextProps) {
 
-		let { accounts } = this.state
+		let { DataSets } = this.state
 		let filter = nextProps.filters
-		let filteredAccounts = []
+		let filteredDataSets = []
 
-		const matches = (arr1, arr2) => {
-			for(let i = 0; i < arr2.length; i++) {
-				if(!arr1.includes(arr2[i])) return false
-			}
-			return true
-		}
 
 		const matchPrefix = (prefix, str) => {
 			prefix = prefix.toLowerCase()
@@ -77,28 +75,23 @@ class DataTable extends React.Component {
 			return true
 		}
 
-		for(let i = 0; i < accounts.length; i++) {
-			let account = accounts[i]
+		for(let i = 0; i < DataSets.length; i++) {
+			let dataSet = DataSets[i]
 
-			if(filter.name != "" && !matchPrefix(filter.name, account.name)) continue
-			if(filter.type != null && account.type != filter.type) continue
-			if(filter.country.length != 0 && !filter.country.includes(account.country)) continue
-			if(filter.public[0] > account.public || filter.public[1] < account.public) continue
-			if(filter.author[0] > account.author || filter.author[1] < account.author) continue
-			if(filter.tags.length != 0 && !matches(account.tags.split(', '), filter.tags)) continue
+			if(filter.manufacturer != "" && !matchPrefix(filter.manufacturer, dataSet.manufacturer)) continue
 
-			filteredAccounts.push(account)
+			filteredDataSets.push(dataSet)
 		}
 
 
-		let maximumPage = Math.ceil(filteredAccounts.length / this.numberOfShowPerPage)
+		let maximumPage = Math.ceil(filteredDataSets.length / this.numberOfShowPerPage)
 		if(maximumPage <= 0) maximumPage = 1
 
 		let pageNumber = this.state.pageNumber
 		if(pageNumber > maximumPage) pageNumber = maximumPage
 
 		this.setState({
-			filteredAccounts,
+			filteredDataSets,
 			pageNumber,
 			maximumPage
 		})
@@ -135,8 +128,34 @@ class DataTable extends React.Component {
 		this.setState({ pageNumber })
 	}
 
+	selected(index) {
+		let { beSelected, selected } = this.state
+		beSelected[index] = !beSelected[index]
+		selected.push(this.state.DataSets[index])
+		this.setState({ beSelected, selected })
+	}
+
+	clearList() {
+		let { beSelected, selected, filteredDataSets, DataSets} = this.state
+		for(let i = 0; i < beSelected.length; i++) {
+			beSelected[i] = false
+		}
+		selected = []
+		filteredDataSets = DataSets
+		this.setState({ filteredDataSets, beSelected, selected })
+	}
+
+	compareList() {
+		let filteredDataSets = []
+		for(let i = 0; i < this.state.selected.length; i++) {
+			let account = this.state.selected[i]
+			filteredDataSets.push(account)
+		}
+		this.setState({ filteredDataSets})
+	}
+
 	render() {
-		const { accounts, filteredAccounts, pageNumber, maximumPage, error } = this.state
+		const { DataSets, filteredDataSets, pageNumber, maximumPage, beSelected, selected, error } = this.state
 
 		let endEntry = pageNumber * this.numberOfShowPerPage
 		let startEntry = endEntry - this.numberOfShowPerPage
@@ -146,58 +165,69 @@ class DataTable extends React.Component {
 			return <div>{this.state.error}</div>
 		}
 
+		let compareForm = ''
+		if(selected.length != 0) {
+			compareForm = (
+				<li className="page-item">
+					<button className="btn btn-outline-dark" onClick={this.compareList.bind(this)}>Compare</button>
+					<button className="btn btn-outline-dark" onClick={this.clearList.bind(this)}>Clear list</button>
+				</li>	
+			)
+		}
+
 		return (
 			<div>
-				<nav aria-label="Page navigation example">
-				  <ul className="pagination">
-				    <li className="page-item">
-				      <a href="#" aria-label="Previous" className="text-dark" onClick={this.changePageNumber.bind(this, false)}>
-				        <span aria-hidden="true">&laquo;</span>
-				        <span className="sr-only">Previous</span>
-				      </a>
-				    </li>
-					<li className="page-item">Page { pageNumber } / { maximumPage }</li>
-				    <li className="page-item">
-				      <a href="#" aria-label="Next" className="text-dark" onClick={this.changePageNumber.bind(this, true)}>
-				        <span aria-hidden="true">&raquo;</span>
-				        <span className="sr-only">Next</span>
-				      </a>
-				    </li>
-				    <li className="page-item">
-						<input type="number" id="page-input" min="1" max="50" placeholder="Enter page" onChange={this.handleChangePageNumber.bind(this)}/>
-				    </li>
-				  </ul>
-				</nav>
-				<table className="table">
-				  <thead className="thead-light">
-				    <tr className="d-flex">
-				      <th className="col-3" scope="col">Instutition</th>
-				      <th className="col-2" scope="col">Type</th>
-				      <th className="col-2" scope="col">Publication Vol.</th>
-				      <th className="col-2" scope="col">Author Vol.</th>
-				      <th className="col-2" scope="col">Location</th>
-				      <th className="col-1" scope="col">Tags</th>
-				    </tr>
-				  </thead>
-				  <tbody>
-				   {
-				   		filteredAccounts.slice(startEntry, endEntry).map((account, index) => {
-				   			return (
-							    <tr className="d-flex" key={index}>
-							      <th className="col-3" scope="row">{account.name}</th>
-							      <td className="col-2">{account.type}</td>
-							      <td className="col-2">{account.public}</td>
-							      <td className="col-2">{account.author}</td>
-							      <td className="col-2">{account.country}</td>
-							      <td className="col-1">{account.tags}</td>
-							    </tr>
-				   			)
-				   		})
+				<h6 id="count-result"> - {filteredDataSets.length} results -</h6>
+				<hr />
+				<div className="card-group row">
+			   {
+			   		filteredDataSets.slice(startEntry, endEntry).map((dataSet, index) => {
+			   			return (
+			   				<div className="col-sm-3" key={index}>
+								<div className="card d-flex">
+								  <div className="card-header">
+								    {dataSet.manufacturer}
+								  </div>
+								  <div className="card-body flex-fill">
+									  <ul className="list-group list-group-flush">
+									    <li className="list-group-item">Liquid Biopsy Product: {dataSet.product}</li>
+									    <li className="list-group-item">Sensitivity: {dataSet.sensitivity}</li>
+									    <li className="list-group-item">TAT:{dataSet.tat}</li>
+									    <li className="list-group-item">Regulatory: {dataSet.regulatory}</li>
+									    <li className="list-group-item">Score: {dataSet.score}</li>
+									  </ul>
+								  </div>
+								  <button className="btn btn-sm btn-outline-success" onClick={this.selected.bind(this, index)}>{beSelected[index] ? 'Selected' : 'Compare'}</button>
+								</div>
+							</div>
+			   			)
+			   		})
 
-				   }
-				  </tbody>
-				</table>
-				<h6 id="count-result"> - {filteredAccounts.length} results -</h6>
+			   }
+			    </div>
+			    <hr />
+			    <nav aria-label="Page navigation example">
+			      <div className="page-section">
+					  <ul className="pagination">
+					    <li className="page-item">
+					      <a href="#" aria-label="Previous" className="text-dark" onClick={this.changePageNumber.bind(this, false)}>
+					        <span aria-hidden="true">&laquo;</span>
+					        <span className="sr-only">Previous</span>
+					      </a>
+					    </li>
+						<li className="page-item">Page { pageNumber } / { maximumPage }</li>
+					    <li className="page-item">
+					      <a href="#" aria-label="Next" className="text-dark" onClick={this.changePageNumber.bind(this, true)}>
+					        <span aria-hidden="true">&raquo;</span>
+					        <span className="sr-only">Next</span>
+					      </a>
+					    </li>
+					    <li className="page-item">
+							<input type="number" id="page-input" min="1" max="50" placeholder="Enter page" onChange={this.handleChangePageNumber.bind(this)}/>
+					    </li>
+					  </ul>
+				  </div>
+				</nav>
 			</div>
 		)
 	}

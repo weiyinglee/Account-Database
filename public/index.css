@@ -1,3 +1,4 @@
+
 #app-title {
 	text-align: center;
 }
@@ -25,8 +26,17 @@
 	width: 100px;
 }
 
+.page-section {
+	margin-left: 40%;
+}
+
 .card {
 	margin: 1%;
+	padding: 1%;
+	height: 450px;
+	max-height: 450px;
+	overflow-x: auto;
+	overflow-y: auto;
 }
 
 .dropdown-menu {         
@@ -39,5 +49,6 @@
 
 #count-result {
 	text-align: center;
+	margin: 1%;
 }
 
