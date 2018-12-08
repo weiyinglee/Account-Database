@@ -49,6 +49,7 @@ class DataFilters extends React.Component {
 				          <span className="input-group-text">Sort By</span>
 				        </div>
 					    <select className="form-control" onChange={this.handleFilterBy.bind(this)}>
+					      <option>None</option>
 						  <option>Name</option>
 						  <option>Sensitivity</option>
 						  <option>TAT</option>

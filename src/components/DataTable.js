@@ -39,6 +39,7 @@ class DataTable extends React.Component {
 			  if (data) {
 			    let DataSets = data.DataSets
 			    let filteredDataSets = DataSets
+			   
 			    this.setState({ 
 			    	DataSets,
 			    	filteredDataSets,
@@ -59,12 +60,9 @@ class DataTable extends React.Component {
 		let filter = nextProps.filters
 		let filteredDataSets = []
 
-
 		const matchPrefix = (prefix, str) => {
 			prefix = prefix.toLowerCase()
 			str = str.toLowerCase()
-
-			console.log(prefix, str)
 
 			if(prefix.length > str.length) return false
 			for(let i = 0; i < prefix.length; i++) {
@@ -85,6 +83,8 @@ class DataTable extends React.Component {
 		//sort by
 		filteredDataSets.sort((a, b) => {
 			switch(filter.sortBy) {
+				case 'None':
+					return 0
 				case 'Name':
 					if(a.manufacturer < b.manufacturer) return -1
 					else if(b.manufacturer < a.manufacturer) return 1
