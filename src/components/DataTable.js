@@ -16,8 +16,8 @@ class DataTable extends React.Component {
 			filteredDataSets: [],
 			pageNumber: 1,
 			maximumPage: 1,
-			beSelected: [],
-			selected: [],
+			selected: new Map(),
+			compareState: false,
 			error: null
 		}
 	}
@@ -42,8 +42,6 @@ class DataTable extends React.Component {
 			    this.setState({ 
 			    	DataSets,
 			    	filteredDataSets,
-			    	show: new Array(DataSets.length).fill(false),
-			    	beSelected: new Array(DataSets.length).fill(false),
 			    	maximumPage: Math.ceil(DataSets.length / this.numberOfShowPerPage)
 			    });
 			  } else {
@@ -82,7 +80,7 @@ class DataTable extends React.Component {
 			if(filter.manufacturer != "" && !matchPrefix(filter.manufacturer, dataSet.manufacturer)) continue
 
 			filteredDataSets.push(dataSet)
-		}
+		}	
 
 		//sort by
 		filteredDataSets.sort((a, b) => {
@@ -118,7 +116,9 @@ class DataTable extends React.Component {
 		this.setState({
 			filteredDataSets,
 			pageNumber,
-			maximumPage
+			maximumPage,
+			selected: filter.selected,
+			compareState: filter.compareState
 		})
 	}
 
@@ -153,34 +153,30 @@ class DataTable extends React.Component {
 		this.setState({ pageNumber })
 	}
 
-	selected(index) {
-		let { beSelected, selected } = this.state
-		beSelected[index] = !beSelected[index]
-		selected.push(this.state.DataSets[index])
-		this.setState({ beSelected, selected })
+	selected(id) {
+		let { selected } = this.state
+		if(selected.has(id)) { 
+			this.props.removeSelected(id)
+		}
+		else { 
+			this.props.addSelected(id, this.state.DataSets[id])
+		}
+		this.setState({ selected })
 	}
 
 	clearList() {
-		let { beSelected, selected, filteredDataSets, DataSets} = this.state
-		for(let i = 0; i < beSelected.length; i++) {
-			beSelected[i] = false
-		}
-		selected = []
+		let { filteredDataSets, DataSets} = this.state
 		filteredDataSets = DataSets
-		this.setState({ filteredDataSets, beSelected, selected })
+		this.setState({ filteredDataSets })
+		this.props.clearSelected()
 	}
 
 	compareList() {
-		let filteredDataSets = []
-		for(let i = 0; i < this.state.selected.length; i++) {
-			let account = this.state.selected[i]
-			filteredDataSets.push(account)
-		}
-		this.setState({ filteredDataSets })
+		this.props.compareSelected()
 	}
 
 	render() {
-		const { DataSets, filteredDataSets, pageNumber, maximumPage, beSelected, selected, error } = this.state
+		const { DataSets, filteredDataSets, pageNumber, maximumPage, selected, compareState, error } = this.state
 
 		let endEntry = pageNumber * this.numberOfShowPerPage
 		let startEntry = endEntry - this.numberOfShowPerPage
@@ -191,22 +187,31 @@ class DataTable extends React.Component {
 		}
 
 		let compareForm = ''
-		if(selected.length != 0) {
+		let filterForm = ''
+		let dataSets = filteredDataSets.slice(startEntry, endEntry)
+
+		if(selected.size != 0) {
 			compareForm = (
-				<li className="page-item">
-					<button className="btn btn-outline-dark" onClick={this.compareList.bind(this)}>Compare</button>
+				<div>
+					<button className="btn btn-outline-dark" onClick={this.compareList.bind(this)}>{compareState ? 'Cancel' : 'Compare'}</button>
 					<button className="btn btn-outline-dark" onClick={this.clearList.bind(this)}>Clear list</button>
-				</li>	
+					<span className="badge badge-info">Selected { selected.size }</span>
+				</div>	
 			)
+		}
+
+		if(compareState) {
+			dataSets = [...selected.values()]
 		}
 
 		return (
 			<div>
 				<h6 id="count-result"> - {filteredDataSets.length} results -</h6>
+				{compareForm}
 				<hr />
 				<div className="card-group row">
 			   {
-			   		filteredDataSets.slice(startEntry, endEntry).map((dataSet, index) => {
+			   		dataSets.map((dataSet, index) => {
 			   			return (
 			   				<div className="col-sm-3" key={index}>
 								<div className="card d-flex">
@@ -222,7 +227,7 @@ class DataTable extends React.Component {
 									    <li className="list-group-item">Score: {dataSet.score}</li>
 									  </ul>
 								  </div>
-								  <button className="btn btn-sm btn-outline-success" onClick={this.selected.bind(this, index)}>{beSelected[index] ? 'Selected' : 'Compare'}</button>
+								  <button className="btn btn-sm btn-outline-success" onClick={this.selected.bind(this, dataSet.id)}>{selected.has(dataSet.id) ? 'Selected' : 'Compare'}</button>
 								</div>
 							</div>
 			   			)

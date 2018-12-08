@@ -13,7 +13,8 @@ export function load(callback) {
       .then(
         response => {
           const data = response.result.values;
-          const DataSets = data.map(dataSet => ({
+          const DataSets = data.map((dataSet, index) => ({
+            id: index,
             manufacturer: dataSet[0],
             product: dataSet[1],
             description: dataSet[2],
