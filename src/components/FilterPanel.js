@@ -17,12 +17,35 @@ class FilterPanel extends Component {
 		}
 	}
 
-	setSensitivityValue(e) { this.setState({ sensitivity: e.target.value }) }
-	setTATValue(e) { this.setState({ tat: e.target.value }) } 
-	setRegulatoryValue(e) { this.setState({ regulatory: e.target.value }) }
-	setScoreValue(e) { this.setState({ score: e.target.value }) }
+	setSensitivityValue(e) {
+		let value = e.target.value
+		this.props.setSensitivityMax(value)
+		this.setState({ sensitivity: value })
+	}
+
+	setTATValue(e) {
+		let value = e.target.value
+		this.props.setTATMax(value)
+		this.setState({ tat: e.target.value })
+	} 
+
+	setRegulatoryValue(e) {
+		let value = e.target.value
+		this.props.setRegulatoryMax(value)
+		this.setState({ regulatory: e.target.value }) 
+	}
+
+	setScoreValue(e) {
+		let value = e.target.value
+		this.props.setScoreMax(value)
+		this.setState({ score: e.target.value }) 
+	}
 
 	resetFilter() {
+		this.props.setSensitivityMax(5)
+		this.props.setTATMax(5)
+		this.props.setRegulatoryMax(5)
+		this.props.setScoreMax(15)
 		this.setState({
 			sensitivity: 5,
 			tat: 5,

@@ -12,6 +12,10 @@ class Layout extends React.Component {
 		this.state = {
 			filters: {
 				manufacturer: "",
+				sensitivityMax: 5,
+				tatMax: 5,
+				regulatoryMax: 5,
+				scoreMax: 15,
 				sortBy: "",
 				selected: new Map(),
 				compareState: false
@@ -69,6 +73,33 @@ class Layout extends React.Component {
 		this.setState({ showPanel: !this.state.showPanel })
 	}
 
+	//set filters value
+	setSensitivityMax(num) {
+		let { filters } = this.state
+		filters.sensitivityMax = num
+		this.setState({ filters })
+	}
+
+	setTATMax(num) {
+		let { filters } = this.state
+		filters.tatMax = num
+		this.setState({ filters })
+	}
+
+
+	setRegulatoryMax(num) {
+		let { filters } = this.state
+		filters.regulatoryMax = num
+		this.setState({ filters })
+	}
+
+
+	setScoreMax(num) {
+		let { filters } = this.state
+		filters.scoreMax = num
+		this.setState({ filters })
+	}
+
 
 	render() {
 		return (
@@ -87,6 +118,10 @@ class Layout extends React.Component {
 					addSelected={this.addSelected.bind(this)}
 					removeSelected={this.removeSelected.bind(this)}
 					showPanel={this.state.showPanel}
+					setSensitivityMax={this.setSensitivityMax.bind(this)}
+					setTATMax={this.setTATMax.bind(this)}
+					setRegulatoryMax={this.setRegulatoryMax.bind(this)}
+					setScoreMax={this.setScoreMax.bind(this)}
 				/>
 			</div>
 		)

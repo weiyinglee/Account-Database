@@ -79,6 +79,10 @@ class DataTable extends React.Component {
 			let dataSet = DataSets[i]
 
 			if(filter.manufacturer != "" && !matchPrefix(filter.manufacturer, dataSet.manufacturer)) continue
+			if(parseInt(dataSet.sensitivity) > filter.sensitivityMax) continue
+			if(parseInt(dataSet.tat) > filter.tatMax) continue
+			if(parseInt(dataSet.regulatory) > filter.regulatoryMax) continue
+			if(parseInt(dataSet.score) > filter.scoreMax) continue
 
 			filteredDataSets.push(dataSet)
 		}	
@@ -110,6 +114,7 @@ class DataTable extends React.Component {
 			}
 		})
 
+		//set max pages
 		let maximumPage = Math.ceil(filteredDataSets.length / this.numberOfShowPerPage)
 		if(maximumPage <= 0) maximumPage = 1
 
@@ -178,16 +183,22 @@ class DataTable extends React.Component {
 		this.props.compareSelected()
 	}
 
+
+	//filters
+	setSensitivityMax(num) { this.props.setSensitivityMax(num) }
+	setTATMax(num) { this.props.setTATMax(num) }
+	setRegulatoryMax(num) { this.props.setRegulatoryMax(num) }
+	setScoreMax(num) { this.props.setScoreMax(num) }
+
+
 	render() {
-		const { DataSets, filteredDataSets, pageNumber, maximumPage, selected, compareState, error } = this.state
+		const { DataSets, filteredDataSets, pageNumber, maximumPage, filters, selected, compareState, error } = this.state
 
 		let endEntry = pageNumber * this.numberOfShowPerPage
 		let startEntry = endEntry - this.numberOfShowPerPage
 
 		//handle error message page
-		if(error) {
-			return <div>{this.state.error}</div>
-		}
+		if(error) { return <div>{this.state.error}</div> }
 
 		let compareForm = ''
 		let filterForm = ''
@@ -211,12 +222,24 @@ class DataTable extends React.Component {
 				<h6 id="count-result"> - {filteredDataSets.length} results -</h6>
 				<hr />
 				<div className={this.props.showPanel ? "row" : ''}>
+
 					<div className={this.props.showPanel ? "col-sm-3" : 'hidden'}>
-						<FilterPanel />
+						<FilterPanel 
+							setSensitivityMax={this.setSensitivityMax.bind(this)}
+							setTATMax={this.setTATMax.bind(this)}
+							setRegulatoryMax={this.setRegulatoryMax.bind(this)}
+							setScoreMax={this.setScoreMax.bind(this)}
+						/>
 					</div>
+
 					<div className={ this.props.showPanel ? 'card-group col-sm-9' : 'card-group row'}>
 				   {
 				   		dataSets.map((dataSet, index) => {
+				   			let sensitivity = dataSet.sensitivity == '' ? 0 : parseInt(dataSet.sensitivity)
+				   			let tat = dataSet.tat == '' ? 0 : parseInt(dataSet.tat)
+				   			let regulatory = dataSet.regulatory == '' ? 0 : parseInt(dataSet.regulatory)
+				   			let score = dataSet.score == '' ? 0 : parseInt(dataSet.score)
+
 				   			return (
 				   				<div className="col-sm-4" key={index}>
 									<div className="card d-flex">
@@ -226,10 +249,10 @@ class DataTable extends React.Component {
 									  <div className="card-body flex-fill">
 										  <ul className="list-group list-group-flush">
 										    <li className="list-group-item">Liquid Biopsy Product: {dataSet.product}</li>
-										    <li className="list-group-item">Sensitivity: {dataSet.sensitivity}</li>
-										    <li className="list-group-item">TAT:{dataSet.tat}</li>
-										    <li className="list-group-item">Regulatory: {dataSet.regulatory}</li>
-										    <li className="list-group-item">Score: {dataSet.score}</li>
+										    <li className="list-group-item">Sensitivity: {sensitivity}</li>
+										    <li className="list-group-item">TAT:{tat}</li>
+										    <li className="list-group-item">Regulatory: {regulatory}</li>
+										    <li className="list-group-item">Score: {score}</li>
 										  </ul>
 									  </div>
 									  <button className={ selected.has(dataSet.id) ? "btn btn-sm btn-success active" : "btn btn-sm btn-outline-success"} 
