@@ -15,7 +15,8 @@ class Layout extends React.Component {
 				sortBy: "",
 				selected: new Map(),
 				compareState: false
-			}
+			},
+			showPanel: false
 		}
 	}
 
@@ -63,6 +64,11 @@ class Layout extends React.Component {
 		this.setState({ filters })
 	}
 
+	//open filter panel
+	openFilterPanel() {
+		this.setState({ showPanel: !this.state.showPanel })
+	}
+
 
 	render() {
 		return (
@@ -71,6 +77,8 @@ class Layout extends React.Component {
 					handleManufacturerFilter={this.handleManufacturerFilter.bind(this)}
 					handleFilterBy={this.handleFilterBy.bind(this)}
 					compareState={this.state.filters.compareState}
+					openFilterPanel={this.openFilterPanel.bind(this)}
+					showPanel={this.state.showPanel}
 				/>
 				<DataTable 
 					filters={this.state.filters} 
@@ -78,6 +86,7 @@ class Layout extends React.Component {
 					clearSelected={this.clearSelected.bind(this)}
 					addSelected={this.addSelected.bind(this)}
 					removeSelected={this.removeSelected.bind(this)}
+					showPanel={this.state.showPanel}
 				/>
 			</div>
 		)

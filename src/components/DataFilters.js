@@ -21,6 +21,11 @@ class DataFilters extends React.Component {
 		this.props.handleFilterBy(e.target.value)
 	}
 
+	//open filter panel
+	openFilterPanel() {
+		this.props.openFilterPanel()
+	}
+
 
 	render() {
 		if(this.props.compareState) {
@@ -60,15 +65,12 @@ class DataFilters extends React.Component {
 				</div>
 
 			    <ul className="navbar-nav">
-			      <li className="nav-item dropdown">
-			        <a className="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-			         FILTERS
-			        </a>
-			        <div className="dropdown-menu" aria-labelledby="navbarDropdown">				        	
-			        </div>
-			      </li>
+			    	<li className="nav-item">
+        				<a className="nav-link" href="#" onClick={this.openFilterPanel.bind(this)}>
+        					{this.props.showPanel ? 'CLOSE FILTERS' : 'OPEN FILTERS'}
+        				</a>
+          			</li>
 			    </ul>
-
 			  </div>
 			</nav>
 		)

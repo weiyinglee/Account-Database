@@ -3,6 +3,10 @@
 	padding: 0;
 }
 
+.hidden {
+	display: none;
+}
+
 #app-title {
 	text-align: center;
 }
@@ -73,4 +77,20 @@
 	color: white;
 	background-color: green;
 }
+
+.jumbotron {
+	padding: auto;
+	margin: auto;
+}
+
+#panel-header {
+	text-align: center;
+}
+
+
+
+
+
+
+
 

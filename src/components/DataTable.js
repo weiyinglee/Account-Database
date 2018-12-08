@@ -5,12 +5,15 @@ import React from 'react'
 import config from '../config'
 import { load } from '../helpers/spreadsheet'
 
+//import components
+import FilterPanel from './FilterPanel'
+
 class DataTable extends React.Component {
 
 	constructor(props) {
 		super(props)
 		this.minimunPage = 1
-		this.numberOfShowPerPage = 20
+		this.numberOfShowPerPage = 15
 		this.state = {
 			DataSets: [],
 			filteredDataSets: [],
@@ -207,33 +210,39 @@ class DataTable extends React.Component {
 			<div>
 				<h6 id="count-result"> - {filteredDataSets.length} results -</h6>
 				<hr />
-				<div className="card-group row">
-			   {
-			   		dataSets.map((dataSet, index) => {
-			   			return (
-			   				<div className="col-sm-3" key={index}>
-								<div className="card d-flex">
-								  <div className="card-header">
-								    {dataSet.manufacturer}
-								  </div>
-								  <div className="card-body flex-fill">
-									  <ul className="list-group list-group-flush">
-									    <li className="list-group-item">Liquid Biopsy Product: {dataSet.product}</li>
-									    <li className="list-group-item">Sensitivity: {dataSet.sensitivity}</li>
-									    <li className="list-group-item">TAT:{dataSet.tat}</li>
-									    <li className="list-group-item">Regulatory: {dataSet.regulatory}</li>
-									    <li className="list-group-item">Score: {dataSet.score}</li>
-									  </ul>
-								  </div>
-								  <button className={ selected.has(dataSet.id) ? "btn btn-sm btn-success active" : "btn btn-sm btn-outline-success"} 
-								  		  onClick={this.selected.bind(this, dataSet.id)}>{selected.has(dataSet.id) ? 'SELECTED' : 'COMPARE'}
-								  </button>
+				<div className={this.props.showPanel ? "row" : ''}>
+					<div className={this.props.showPanel ? "col-sm-3" : 'hidden'}>
+						<FilterPanel />
+					</div>
+					<div className={ this.props.showPanel ? 'card-group col-sm-9' : 'card-group row'}>
+				   {
+				   		dataSets.map((dataSet, index) => {
+				   			return (
+				   				<div className="col-sm-4" key={index}>
+									<div className="card d-flex">
+									  <div className="card-header">
+									    {dataSet.manufacturer}
+									  </div>
+									  <div className="card-body flex-fill">
+										  <ul className="list-group list-group-flush">
+										    <li className="list-group-item">Liquid Biopsy Product: {dataSet.product}</li>
+										    <li className="list-group-item">Sensitivity: {dataSet.sensitivity}</li>
+										    <li className="list-group-item">TAT:{dataSet.tat}</li>
+										    <li className="list-group-item">Regulatory: {dataSet.regulatory}</li>
+										    <li className="list-group-item">Score: {dataSet.score}</li>
+										  </ul>
+									  </div>
+									  <button className={ selected.has(dataSet.id) ? "btn btn-sm btn-success active" : "btn btn-sm btn-outline-success"} 
+									  		  onClick={this.selected.bind(this, dataSet.id)}>{selected.has(dataSet.id) ? 'SELECTED' : 'COMPARE'}
+									  </button>
+									</div>
 								</div>
-							</div>
-			   			)
-			   		})
+				   			)
+				   		})
 
-			   }
+				   }
+				    </div>
+				    
 			    </div>
 			    <hr />
 			    <nav aria-label="Page navigation example">
