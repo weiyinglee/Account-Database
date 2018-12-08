@@ -227,7 +227,9 @@ class DataTable extends React.Component {
 									    <li className="list-group-item">Score: {dataSet.score}</li>
 									  </ul>
 								  </div>
-								  <button className="btn btn-sm btn-outline-success" onClick={this.selected.bind(this, dataSet.id)}>{selected.has(dataSet.id) ? 'Selected' : 'Compare'}</button>
+								  <button className={ selected.has(dataSet.id) ? "btn btn-sm btn-success active" : "btn btn-sm btn-outline-success"} 
+								  		  onClick={this.selected.bind(this, dataSet.id)}>{selected.has(dataSet.id) ? 'Selected' : 'Compare'}
+								  </button>
 								</div>
 							</div>
 			   			)
