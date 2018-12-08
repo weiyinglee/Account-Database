@@ -1,3 +1,7 @@
+* {
+	margin: 0;
+	padding: 0;
+}
 
 #app-title {
 	text-align: center;
@@ -50,5 +54,23 @@
 #count-result {
 	text-align: center;
 	margin: 1%;
+}
+
+.alert {
+	background-color:rgba(0, 0, 0, 0.5);
+	position: fixed;
+	bottom: 0;
+	left: 0;
+	width: 200px;
+}
+
+.alert .btn {
+	margin-left: 2%;
+	background-color: white;
+}
+
+.alert .btn:hover {
+	color: white;
+	background-color: green;
 }
 

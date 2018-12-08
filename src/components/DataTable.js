@@ -192,11 +192,10 @@ class DataTable extends React.Component {
 
 		if(selected.size != 0) {
 			compareForm = (
-				<div>
-					<button className="btn btn-outline-dark" onClick={this.compareList.bind(this)}>{compareState ? 'Cancel' : 'Compare'}</button>
-					<button className="btn btn-outline-dark" onClick={this.clearList.bind(this)}>Clear list</button>
-					<span className="badge badge-info">Selected { selected.size }</span>
-				</div>	
+				<div class="alert alert-secondary" role="alert">
+					<button className="btn btn-sm btn-outline-success" onClick={this.compareList.bind(this)}>{compareState ? 'Cancel' : 'Compare'}</button>
+					<button className="btn btn-sm btn-outline-success" onClick={this.clearList.bind(this)}>Clear list</button>
+				</div>
 			)
 		}
 
@@ -207,7 +206,6 @@ class DataTable extends React.Component {
 		return (
 			<div>
 				<h6 id="count-result"> - {filteredDataSets.length} results -</h6>
-				{compareForm}
 				<hr />
 				<div className="card-group row">
 			   {
@@ -228,7 +226,7 @@ class DataTable extends React.Component {
 									  </ul>
 								  </div>
 								  <button className={ selected.has(dataSet.id) ? "btn btn-sm btn-success active" : "btn btn-sm btn-outline-success"} 
-								  		  onClick={this.selected.bind(this, dataSet.id)}>{selected.has(dataSet.id) ? 'Selected' : 'Compare'}
+								  		  onClick={this.selected.bind(this, dataSet.id)}>{selected.has(dataSet.id) ? 'SELECTED' : 'COMPARE'}
 								  </button>
 								</div>
 							</div>
@@ -260,6 +258,7 @@ class DataTable extends React.Component {
 					  </ul>
 				  </div>
 				</nav>
+				{compareForm}
 			</div>
 		)
 	}
