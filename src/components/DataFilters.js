@@ -32,23 +32,23 @@ class DataFilters extends React.Component {
 			return (<div></div>)
 		}
 		return (
-			<nav className="navbar navbar-expand-lg navbar-light bg-light">
+			<nav className="navbar navbar-expand-lg navbar-light bg-light container">
 			  <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
 			    <span className="navbar-toggler-icon"></span>
 			  </button>
 
 			  <div className="collapse navbar-collapse row" id="navbarSupportedContent">
 
-		        <form className="form-inline col-3">
+		        <form className="form-inline col-4">
 				    <div className="input-group">
 				        <div className="input-group-prepend">
 				          <span className="input-group-text" id="basic-addon1">Search</span>
 				        </div>
-				      <input className="form-control" type="search" onChange={this.handleManufacturerFilter.bind(this)} ref="nameInput" placeholder="Search name" aria-label="Search" />
+				      <input className="form-control" type="search" onChange={this.handleManufacturerFilter.bind(this)} ref="nameInput" placeholder="Enter Name" aria-label="Search" />
 				    </div>
 				</form>			    
 
-		        <div className="navbar-nav form-inline form-group col-3">
+		        <div className="navbar-nav form-inline form-group col-4">
 				    <div className="input-group">
 				        <div className="input-group-prepend">
 				          <span className="input-group-text">Sort By</span>
@@ -64,9 +64,9 @@ class DataFilters extends React.Component {
 				    </div>		        	
 				</div>
 
-			    <ul className="navbar-nav">
+			    <ul className="navbar-nav col-sm-4">
 			    	<li className="nav-item">
-        				<a className="nav-link" href="#" onClick={this.openFilterPanel.bind(this)}>
+        				<a className="btn btn-sm btn-outline-dark" href="#" onClick={this.openFilterPanel.bind(this)}>
         					{this.props.showPanel ? 'CLOSE FILTERS' : 'OPEN FILTERS'}
         				</a>
           			</li>
