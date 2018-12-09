@@ -6,7 +6,7 @@ class Header extends Component {
 		return (
 			<header>
 				<div className="header-content-section">
-					<h4>Welcome to LBx Product Database</h4>
+					<h4><strong>Welcome to LBx Product Database</strong></h4>
 					<p>
 					</p>
 				</div>
