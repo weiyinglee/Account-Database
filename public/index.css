@@ -115,6 +115,11 @@ body {
 	font-weight: bold;
 }
 
+#compareRank {
+	width: 50%;
+	margin: auto;
+}
+
 .jumbotron {
 	padding: auto;
 	margin: auto;
@@ -166,6 +171,12 @@ footer {
     	padding: 1%;
     	margin: 1%;
     }
+}
+
+@media screen and (max-width: 800px) {
+	#compareRank {
+		width: 100%;
+	}
 }
 
 

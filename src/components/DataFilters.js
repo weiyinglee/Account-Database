@@ -41,28 +41,28 @@ class DataFilters extends React.Component {
 
 		        <form className="navbar-nav form-inline col-12 col-sm-12 col-md-4 col-lg-4">
 				    <div className="input-group">
-				        <div className="input-group-prepend">
-				          <span className="input-group-text">Company</span>
+				        <div className="input-group-prepend with-shadow-light">
+				          <span className="input-group-text bg-light"><strong>Company</strong></span>
 				        </div>
-				      <input className="form-control" type="search" onChange={this.handleManufacturerFilter.bind(this)} ref="nameInput" placeholder="Type name..." aria-label="Search" />
+				      <input className="form-control with-shadow-light" type="search" onChange={this.handleManufacturerFilter.bind(this)} ref="nameInput" placeholder="Search name..." aria-label="Search" />
 				    </div>
 				</form>
 
 		        <form className="navbar-nav form-inline col-12 col-sm-12 col-md-4 col-lg-4">
 				    <div className="input-group">
-				        <div className="input-group-prepend">
-				          <span className="input-group-text">Product</span>
+				        <div className="input-group-prepend with-shadow-light">
+				          <span className="input-group-text bg-light"><strong>Product</strong></span>
 				        </div>
-				      <input className="form-control" type="search" onChange={this.handleProductFilter.bind(this)} ref="productInput" placeholder="Type product..." aria-label="Search" />
+				      <input className="form-control with-shadow-light" type="search" onChange={this.handleProductFilter.bind(this)} ref="productInput" placeholder="Search product..." aria-label="Search" />
 				    </div>
 				</form>			    
 
 		        <div className="navbar-nav form-inline form-group col-6 col-sm-6 col-md-2 col-lg-3">
 				    <div className="input-group">
-				        <div className="input-group-prepend">
-				          <span className="input-group-text">Sort By</span>
+				        <div className="input-group-prepend with-shadow-light">
+				          <span className="input-group-text bg-light"><strong>Sort By</strong></span>
 				        </div>
-					    <select className="form-control" onChange={this.handleFilterBy.bind(this)}>
+					    <select className="form-control with-shadow-light" onChange={this.handleFilterBy.bind(this)}>
 					      <option>None</option>
 						  <option>Name</option>
 						  <option>Sensitivity</option>
@@ -75,7 +75,7 @@ class DataFilters extends React.Component {
 
 			    <ul className="navbar-nav col-6 col-sm-6 col-md-2 col-lg-1">
 			    	<li className="nav-item">
-        				<a className="btn btn-outline-dark with-shadow-light" href="#" id="filterPanelBtn" onClick={this.openFilterPanel.bind(this)}>
+        				<a className="btn btn-outline-info with-shadow-light" href="#" id="filterPanelBtn" onClick={this.openFilterPanel.bind(this)}>
         					{this.props.showPanel ? 'CLOSE FILTERS' : 'OPEN FILTERS'}
         				</a>
           			</li>

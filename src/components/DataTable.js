@@ -205,7 +205,9 @@ class DataTable extends React.Component {
 		//handle error message page
 		if(error) { return <div>{this.state.error}</div> }
 
+		//JSX HTMLs
 		let compareForm = ''
+		let compareRank = ''
 		let filterForm = ''
 		let dataPresentations = ''
 		let totalProduct = (<h6 id="count-result"><strong> Total Products: {filteredDataSets.length}</strong></h6>)
@@ -234,11 +236,13 @@ class DataTable extends React.Component {
 			</nav>
 		)
 		
+		//partial dataSets
 		let dataSets = filteredDataSets.slice(startEntry, endEntry)
 
+		//condition states
 		if(selected.size != 0) {
 			compareForm = (
-				<div class="alert alert-secondary compare-alert" role="alert">
+				<div className="alert alert-secondary compare-alert" role="alert">
 					<button className="btn btn-sm btn-outline-success compareBtn" onClick={this.compareList.bind(this)}>{compareState ? 'CANCEL' : 'COMPARE'}</button>
 					<button className="btn btn-sm btn-outline-success" onClick={this.clearList.bind(this)}>CLEAR LIST</button>
 				</div>
@@ -247,6 +251,39 @@ class DataTable extends React.Component {
 
 		if(compareState) {
 			dataSets = [...selected.values()]
+
+			const getMaxItemByType = (type, maxValue) => {
+				return dataSets.find((data) => data[type] == maxValue).manufacturer
+			}
+
+			let maxSensitivity = Math.max(...dataSets.map(v => v.sensitivity), 0)
+			let maxTAT = Math.max(...dataSets.map(v => v.tat), 0)
+			let maxRegulatory = Math.max(...dataSets.map(v => v.regulatory), 0)
+			let maxScore = Math.max(...dataSets.map(v => v.score), 0)
+
+			compareRank = (
+				<div className="card with-shadow border-secondary" id="compareRank">
+				  <div className="card-body">
+				  	<div className="card-title text-center"><h5><strong>BEST OF EACH CATEGORY</strong></h5></div>
+				    <div className="card-text">
+						<ul className="list-group list-group-flush">
+							<li className="list-group-item">
+								Sensitivity: <strong>{ getMaxItemByType('sensitivity', maxSensitivity) }</strong> <span className="badge badge-pill badge-secondary">{ maxSensitivity }</span>
+							</li>
+							<li className="list-group-item">
+								TAT: <strong>{ getMaxItemByType('tat', maxTAT) }</strong> <span className="badge badge-pill badge-secondary">{ maxTAT }</span>
+							</li>
+							<li className="list-group-item">
+								Regulatory: <strong>{ getMaxItemByType('regulatory', maxRegulatory) }</strong> <span className="badge badge-pill badge-secondary">{ maxRegulatory }</span>
+							</li>
+							<li className="list-group-item">
+								Score: <strong>{ getMaxItemByType('score', maxScore) }</strong> <span className="badge badge-pill badge-secondary">{ maxScore }</span>
+							</li>
+						</ul>
+				    </div>
+				  </div>
+				</div>
+			)
 			totalProduct = ''
 			paginations = ''
 		}
@@ -318,6 +355,7 @@ class DataTable extends React.Component {
 	   			) })
 		}
 
+		//render the page
 		return (
 			<div className="data-section">
 				{ totalProduct }
@@ -339,7 +377,9 @@ class DataTable extends React.Component {
 					}>
 				    { dataPresentations }
 				    </div>
-				    
+				    <div className="container">
+				    	{ compareRank }
+				    </div>
 			    </div>
 			    <hr />
 			    { paginations }
