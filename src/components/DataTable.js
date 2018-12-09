@@ -245,7 +245,10 @@ class DataTable extends React.Component {
 				   			let score = dataSet.score == '' ? 0 : parseInt(dataSet.score)
 
 				   			return (
-				   				<div className={ this.props.showPanel ? "col-sm-6" : "col-12 col-sm-12 col-md-6 col-lg-6 col-xl-4"} key={index}>
+				   				<div 
+				   					className={ this.props.showPanel ? "col-sm-12 col-md-12 col-lg-6" : "col-12 col-sm-12 col-md-6 col-lg-6 col-xl-4"} 
+				   					key={index}
+				   				>
 									<div className="card d-flex">
 									  <div className="card-header">
 									    {dataSet.manufacturer}
@@ -279,7 +282,8 @@ class DataTable extends React.Component {
 								          options={{
 								            title:{ 
 								            	display: true,
-								            	text: `Liquid Biopsy Product: ${dataSet.product}`
+								            	text: dataSet.product,
+								            	fontSize: 18
 								           	},
 								            legend:{ display: false }
 								          }}
