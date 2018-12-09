@@ -4,6 +4,7 @@
 import React from 'react'
 import config from '../config'
 import { load } from '../helpers/spreadsheet'
+import { Bar } from 'react-chartjs-2'
 
 //import components
 import FilterPanel from './FilterPanel'
@@ -194,6 +195,9 @@ class DataTable extends React.Component {
 	render() {
 		const { DataSets, filteredDataSets, pageNumber, maximumPage, filters, selected, compareState, error } = this.state
 
+		const width = 300
+		const height = 300
+
 		let endEntry = pageNumber * this.numberOfShowPerPage
 		let startEntry = endEntry - this.numberOfShowPerPage
 
@@ -241,19 +245,45 @@ class DataTable extends React.Component {
 				   			let score = dataSet.score == '' ? 0 : parseInt(dataSet.score)
 
 				   			return (
-				   				<div className="col-sm-4" key={index}>
+				   				<div className={ this.props.showPanel ? "col-sm-6" : "col-12 col-sm-12 col-md-6 col-lg-6 col-xl-4"} key={index}>
 									<div className="card d-flex">
 									  <div className="card-header">
 									    {dataSet.manufacturer}
 									  </div>
 									  <div className="card-body flex-fill">
-										  <ul className="list-group list-group-flush">
-										    <li className="list-group-item">Liquid Biopsy Product: {dataSet.product}</li>
-										    <li className="list-group-item">Sensitivity: {sensitivity}</li>
-										    <li className="list-group-item">TAT:{tat}</li>
-										    <li className="list-group-item">Regulatory: {regulatory}</li>
-										    <li className="list-group-item">Score: {score}</li>
-										  </ul>
+								        <Bar
+								          data={
+								          	{
+									          	labels:['Sensitivity', 'TAT', 'Regulatory', 'Score'],
+										        datasets:[
+										          {
+										            data:[
+										              sensitivity,
+										              tat,
+										              regulatory,
+										              score
+										            ],
+										            backgroundColor:[
+										              'rgba(255, 99, 132, 0.6)',
+										              'rgba(54, 162, 235, 0.6)',
+										              'rgba(255, 206, 86, 0.6)',
+										              'rgba(75, 192, 192, 0.6)',
+										              'rgba(153, 102, 255, 0.6)',
+										              'rgba(255, 159, 64, 0.6)',
+										              'rgba(255, 99, 132, 0.6)'
+										            ]
+										          }
+										        ]
+								            }
+								      	  }
+								          options={{
+								            title:{ 
+								            	display: true,
+								            	text: `Liquid Biopsy Product: ${dataSet.product}`
+								           	},
+								            legend:{ display: false }
+								          }}
+								        />
 									  </div>
 									  <button className={ selected.has(dataSet.id) ? "btn btn-sm btn-success active" : "btn btn-sm btn-outline-success"} 
 									  		  onClick={this.selected.bind(this, dataSet.id)}>{selected.has(dataSet.id) ? 'SELECTED' : 'COMPARE'}

@@ -46,7 +46,7 @@
 .card {
 	margin: 1%;
 	padding: 1%;
-	height: 450px;
+	height: 350px;
 	max-height: 450px;
 	overflow-x: auto;
 	overflow-y: auto;
