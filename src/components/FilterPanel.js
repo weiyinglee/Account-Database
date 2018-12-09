@@ -77,7 +77,7 @@ class FilterPanel extends Component {
 				 		<input type="range" min="1" max="15" value={score} className="slider form-control" id="scoreRange" onChange={this.setScoreValue.bind(this)}/>
 					</div>
 				</form>
-				<button className="btn btn-outline-success" onClick={this.resetFilter.bind(this)}>Reset</button>
+				<button className="btn btn-outline-success" onClick={this.resetFilter.bind(this)}>CLEAR FITERS</button>
 			</div>
 		)
 	}

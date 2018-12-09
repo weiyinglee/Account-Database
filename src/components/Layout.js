@@ -4,6 +4,8 @@ import React from 'react'
 //import components
 import DataFilters from './DataFilters'
 import DataTable from './DataTable'
+import Header from './Header'
+import Footer from './Footer'
 
 class Layout extends React.Component {
 
@@ -103,7 +105,8 @@ class Layout extends React.Component {
 
 	render() {
 		return (
-			<div className="container-fluid">
+			<div className="container-fluid bg-light">
+				<Header />
 				<DataFilters
 					handleManufacturerFilter={this.handleManufacturerFilter.bind(this)}
 					handleFilterBy={this.handleFilterBy.bind(this)}
@@ -123,6 +126,7 @@ class Layout extends React.Component {
 					setRegulatoryMax={this.setRegulatoryMax.bind(this)}
 					setScoreMax={this.setScoreMax.bind(this)}
 				/>
+				<Footer />
 			</div>
 		)
 	}

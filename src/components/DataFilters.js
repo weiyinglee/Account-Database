@@ -33,22 +33,18 @@ class DataFilters extends React.Component {
 		}
 		return (
 			<nav className="navbar navbar-expand-lg navbar-light bg-light container">
-			  <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-			    <span className="navbar-toggler-icon"></span>
-			  </button>
+			  <div className="row" id="navbarSupportedContent">
 
-			  <div className="collapse navbar-collapse row" id="navbarSupportedContent">
-
-		        <form className="form-inline col-4">
+		        <form className="form-inline col-12 col-sm-12 col-md-5 col-lg-5">
 				    <div className="input-group">
 				        <div className="input-group-prepend">
-				          <span className="input-group-text" id="basic-addon1">Search</span>
+				          <span className="input-group-text">Search</span>
 				        </div>
 				      <input className="form-control" type="search" onChange={this.handleManufacturerFilter.bind(this)} ref="nameInput" placeholder="Enter Name" aria-label="Search" />
 				    </div>
 				</form>			    
 
-		        <div className="navbar-nav form-inline form-group col-4">
+		        <div className="navbar-nav form-inline form-group col-6 col-sm-6 col-md-5 col-lg-5">
 				    <div className="input-group">
 				        <div className="input-group-prepend">
 				          <span className="input-group-text">Sort By</span>
@@ -64,9 +60,9 @@ class DataFilters extends React.Component {
 				    </div>		        	
 				</div>
 
-			    <ul className="navbar-nav col-sm-4">
+			    <ul className="navbar-nav col-6 col-sm-6 col-md-2 col-lg-2">
 			    	<li className="nav-item">
-        				<a className="btn btn-sm btn-outline-dark" href="#" onClick={this.openFilterPanel.bind(this)}>
+        				<a className="btn btn-outline-dark" href="#" id="filterPanelBtn" onClick={this.openFilterPanel.bind(this)}>
         					{this.props.showPanel ? 'CLOSE FILTERS' : 'OPEN FILTERS'}
         				</a>
           			</li>
