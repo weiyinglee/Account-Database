@@ -207,6 +207,7 @@ class DataTable extends React.Component {
 
 		let compareForm = ''
 		let filterForm = ''
+		let dataPresentations = ''
 		let totalProduct = (<h6 id="count-result"><strong> Total Products: {filteredDataSets.length}</strong></h6>)
 		let paginations = (
 		    <nav aria-label="Page navigation example">
@@ -237,7 +238,7 @@ class DataTable extends React.Component {
 
 		if(selected.size != 0) {
 			compareForm = (
-				<div class="alert alert-secondary" role="alert">
+				<div class="alert alert-secondary compare-alert" role="alert">
 					<button className="btn btn-sm btn-outline-success compareBtn" onClick={this.compareList.bind(this)}>{compareState ? 'CANCEL' : 'COMPARE'}</button>
 					<button className="btn btn-sm btn-outline-success" onClick={this.clearList.bind(this)}>CLEAR LIST</button>
 				</div>
@@ -248,6 +249,73 @@ class DataTable extends React.Component {
 			dataSets = [...selected.values()]
 			totalProduct = ''
 			paginations = ''
+		}
+
+		if(dataSets.length == 0) {
+			dataPresentations = (
+				<div className="alert alert-danger no-result-alert" role="alert">
+					Looks like there aren't any products that match your search :(
+				</div>
+			)
+		}else {
+			dataPresentations = dataSets.map((dataSet, index) => {
+	   			let sensitivity = dataSet.sensitivity == '' ? 0 : parseInt(dataSet.sensitivity)
+	   			let tat = dataSet.tat == '' ? 0 : parseInt(dataSet.tat)
+	   			let regulatory = dataSet.regulatory == '' ? 0 : parseInt(dataSet.regulatory)
+	   			let score = dataSet.score == '' ? 0 : parseInt(dataSet.score)
+
+	   			return (
+	   				<div 
+	   					className={ 
+	   						this.props.showPanel ? "col-sm-12 col-md-12 col-lg-6" : "col-12 col-sm-12 col-md-6 col-lg-6 col-xl-4"
+	   					} 
+	   					key={index}>
+						<div className="card d-flex with-shadow">
+						  <div className="card-header">
+						    <strong>{dataSet.manufacturer}</strong>
+						  </div>
+						  <div className="card-body flex-fill">
+					        <Bar
+					          data={
+					          	{
+						          	labels:['Sensitivity', 'TAT', 'Regulatory', 'Score'],
+							        datasets:[
+							          {
+							            data:[
+							              sensitivity,
+							              tat,
+							              regulatory,
+							              score
+							            ],
+							            backgroundColor:[
+							              'rgba(255, 99, 132, 0.6)',
+							              'rgba(54, 162, 235, 0.6)',
+							              'rgba(255, 206, 86, 0.6)',
+							              'rgba(75, 192, 192, 0.6)',
+							              'rgba(153, 102, 255, 0.6)',
+							              'rgba(255, 159, 64, 0.6)',
+							              'rgba(255, 99, 132, 0.6)'
+							            ]
+							          }
+							        ]
+					            }
+					      	  }
+					          options={{
+					            title:{ 
+					            	display: true,
+					            	text: dataSet.product,
+					            	fontSize: 18
+					           	},
+					            legend:{ display: false }
+					          }}
+					        />
+						  </div>
+						  <button className={ selected.has(dataSet.id) ? "btn btn-sm btn-success active" : "btn btn-sm btn-outline-success"} 
+						  		  onClick={this.selected.bind(this, dataSet.id)}>{selected.has(dataSet.id) ? 'SELECTED' : 'COMPARE'}
+						  </button>
+						</div>
+					</div>
+	   			) })
 		}
 
 		return (
@@ -267,70 +335,9 @@ class DataTable extends React.Component {
 					</div>
 
 					<div className={ 
-						compareState ? 'card-group justify-content-md-center row' : this.props.showPanel ? 'card-group col-sm-9' : 'card-group row'
+						this.props.showPanel ? 'card-group justify-content-md-center col-sm-9' : 'card-group justify-content-md-center row'
 					}>
-				   {
-				   		dataSets.map((dataSet, index) => {
-				   			let sensitivity = dataSet.sensitivity == '' ? 0 : parseInt(dataSet.sensitivity)
-				   			let tat = dataSet.tat == '' ? 0 : parseInt(dataSet.tat)
-				   			let regulatory = dataSet.regulatory == '' ? 0 : parseInt(dataSet.regulatory)
-				   			let score = dataSet.score == '' ? 0 : parseInt(dataSet.score)
-
-				   			return (
-				   				<div 
-				   					className={ 
-				   						this.props.showPanel ? "col-sm-12 col-md-12 col-lg-6" : "col-12 col-sm-12 col-md-6 col-lg-6 col-xl-4"
-				   					} 
-				   					key={index}>
-									<div className="card d-flex with-shadow">
-									  <div className="card-header">
-									    <strong>{dataSet.manufacturer}</strong>
-									  </div>
-									  <div className="card-body flex-fill">
-								        <Bar
-								          data={
-								          	{
-									          	labels:['Sensitivity', 'TAT', 'Regulatory', 'Score'],
-										        datasets:[
-										          {
-										            data:[
-										              sensitivity,
-										              tat,
-										              regulatory,
-										              score
-										            ],
-										            backgroundColor:[
-										              'rgba(255, 99, 132, 0.6)',
-										              'rgba(54, 162, 235, 0.6)',
-										              'rgba(255, 206, 86, 0.6)',
-										              'rgba(75, 192, 192, 0.6)',
-										              'rgba(153, 102, 255, 0.6)',
-										              'rgba(255, 159, 64, 0.6)',
-										              'rgba(255, 99, 132, 0.6)'
-										            ]
-										          }
-										        ]
-								            }
-								      	  }
-								          options={{
-								            title:{ 
-								            	display: true,
-								            	text: dataSet.product,
-								            	fontSize: 18
-								           	},
-								            legend:{ display: false }
-								          }}
-								        />
-									  </div>
-									  <button className={ selected.has(dataSet.id) ? "btn btn-sm btn-success active" : "btn btn-sm btn-outline-success"} 
-									  		  onClick={this.selected.bind(this, dataSet.id)}>{selected.has(dataSet.id) ? 'SELECTED' : 'COMPARE'}
-									  </button>
-									</div>
-								</div>
-				   			)
-				   		})
-
-				   }
+				    { dataPresentations }
 				    </div>
 				    
 			    </div>
