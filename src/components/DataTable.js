@@ -111,6 +111,7 @@ class DataTable extends React.Component {
 					return parseInt(b.score) - parseInt(a.score)
 					break
 				default:
+					return 0
 					break
 			}
 		})
@@ -184,7 +185,6 @@ class DataTable extends React.Component {
 		this.props.compareSelected()
 	}
 
-
 	//filters
 	setSensitivityMax(num) { this.props.setSensitivityMax(num) }
 	setTATMax(num) { this.props.setTATMax(num) }
@@ -206,24 +206,52 @@ class DataTable extends React.Component {
 
 		let compareForm = ''
 		let filterForm = ''
+		let totalProduct = (<h6 id="count-result"><strong> Total Products: {filteredDataSets.length}</strong></h6>)
+		let paginations = (
+		    <nav aria-label="Page navigation example">
+		      <div className="page-section">
+				  <ul className="pagination">
+				    <li className="page-item">
+				      <a href="#" aria-label="Previous" className="text-dark" onClick={this.changePageNumber.bind(this, false)}>
+				        <span aria-hidden="true">&laquo;</span>
+				        <span className="sr-only">Previous</span>
+				      </a>
+				    </li>
+					<li className="page-item">Page { pageNumber } / { maximumPage }</li>
+				    <li className="page-item">
+				      <a href="#" aria-label="Next" className="text-dark" onClick={this.changePageNumber.bind(this, true)}>
+				        <span aria-hidden="true">&raquo;</span>
+				        <span className="sr-only">Next</span>
+				      </a>
+				    </li>
+				    <li className="page-item">
+						<input type="number" id="page-input" min="1" max={maximumPage} placeholder="Enter page" onChange={this.handleChangePageNumber.bind(this)}/>
+				    </li>
+				  </ul>
+			  </div>
+			</nav>
+		)
+		
 		let dataSets = filteredDataSets.slice(startEntry, endEntry)
 
 		if(selected.size != 0) {
 			compareForm = (
 				<div class="alert alert-secondary" role="alert">
-					<button className="btn btn-sm btn-outline-success" onClick={this.compareList.bind(this)}>{compareState ? 'Cancel' : 'Compare'}</button>
-					<button className="btn btn-sm btn-outline-success" onClick={this.clearList.bind(this)}>Clear list</button>
+					<button className="btn btn-sm btn-outline-success compareBtn" onClick={this.compareList.bind(this)}>{compareState ? 'CANCEL' : 'COMPARE'}</button>
+					<button className="btn btn-sm btn-outline-success" onClick={this.clearList.bind(this)}>CLEAR LIST</button>
 				</div>
 			)
 		}
 
 		if(compareState) {
 			dataSets = [...selected.values()]
+			totalProduct = ''
+			paginations = ''
 		}
 
 		return (
-			<div>
-				<h6 id="count-result"> - {filteredDataSets.length} results -</h6>
+			<div className="data-section">
+				{ totalProduct }
 				<hr />
 				<div className={this.props.showPanel ? "row" : ''}>
 
@@ -233,10 +261,13 @@ class DataTable extends React.Component {
 							setTATMax={this.setTATMax.bind(this)}
 							setRegulatoryMax={this.setRegulatoryMax.bind(this)}
 							setScoreMax={this.setScoreMax.bind(this)}
+							compareState={compareState}
 						/>
 					</div>
 
-					<div className={ this.props.showPanel ? 'card-group col-sm-9' : 'card-group row'}>
+					<div className={ 
+						compareState ? 'card-group justify-content-md-center row' : this.props.showPanel ? 'card-group col-sm-9' : 'card-group row'
+					}>
 				   {
 				   		dataSets.map((dataSet, index) => {
 				   			let sensitivity = dataSet.sensitivity == '' ? 0 : parseInt(dataSet.sensitivity)
@@ -246,12 +277,13 @@ class DataTable extends React.Component {
 
 				   			return (
 				   				<div 
-				   					className={ this.props.showPanel ? "col-sm-12 col-md-12 col-lg-6" : "col-12 col-sm-12 col-md-6 col-lg-6 col-xl-4"} 
-				   					key={index}
-				   				>
-									<div className="card d-flex">
+				   					className={ 
+				   						this.props.showPanel ? "col-sm-12 col-md-12 col-lg-6" : "col-12 col-sm-12 col-md-6 col-lg-6 col-xl-4"
+				   					} 
+				   					key={index}>
+									<div className="card d-flex with-shadow">
 									  <div className="card-header">
-									    {dataSet.manufacturer}
+									    <strong>{dataSet.manufacturer}</strong>
 									  </div>
 									  <div className="card-body flex-fill">
 								        <Bar
@@ -302,29 +334,8 @@ class DataTable extends React.Component {
 				    
 			    </div>
 			    <hr />
-			    <nav aria-label="Page navigation example">
-			      <div className="page-section">
-					  <ul className="pagination">
-					    <li className="page-item">
-					      <a href="#" aria-label="Previous" className="text-dark" onClick={this.changePageNumber.bind(this, false)}>
-					        <span aria-hidden="true">&laquo;</span>
-					        <span className="sr-only">Previous</span>
-					      </a>
-					    </li>
-						<li className="page-item">Page { pageNumber } / { maximumPage }</li>
-					    <li className="page-item">
-					      <a href="#" aria-label="Next" className="text-dark" onClick={this.changePageNumber.bind(this, true)}>
-					        <span aria-hidden="true">&raquo;</span>
-					        <span className="sr-only">Next</span>
-					      </a>
-					    </li>
-					    <li className="page-item">
-							<input type="number" id="page-input" min="1" max="50" placeholder="Enter page" onChange={this.handleChangePageNumber.bind(this)}/>
-					    </li>
-					  </ul>
-				  </div>
-				</nav>
-				{compareForm}
+			    { paginations }
+				{ compareForm }
 			</div>
 		)
 	}

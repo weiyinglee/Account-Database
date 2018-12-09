@@ -28,43 +28,48 @@ class Layout extends React.Component {
 
 	//handle the filtering types
 	handleManufacturerFilter(prefix) {
-		let filters = this.state.filters
+		let { filters } = this.state
 		filters.manufacturer = prefix
 		this.setState({ filters })
 	}
 
 	//handle the filters
 	handleFilterBy(type) {
-		let filters = this.state.filters
+		let { filters } = this.state
 		filters.sortBy = type
 		this.setState({ filters })
 	}
 
 	//compare selected list
 	compareSelected() {
-		let filters = this.state.filters
+		let { filters } = this.state
+
+		filters.manufacturer = ""
+		filters.sortBy = ""
 		filters.compareState = !filters.compareState
-		this.setState({ filters })
+
+		this.setState({ filters, showPanel: false })
 	}
 
 	//clear the compare
 	clearSelected() {
-		let filters = this.state.filters
+		let { filters } = this.state
 		filters.selected.clear()
 		filters.compareState = false
+
 		this.setState({ filters })
 	}
 
 	//add the selected
 	addSelected(index, data) {
-		let filters = this.state.filters
+		let { filters } = this.state
 		filters.selected.set(index, data)
 		this.setState({ filters })
 	}
 
 	//remove the selected
 	removeSelected(index) {
-		let filters = this.state.filters
+		let { filters } = this.state
 		filters.selected.delete(index)
 		if(filters.selected.size === 0) filters.compareState = false
 		this.setState({ filters })

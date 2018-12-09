@@ -57,8 +57,9 @@ class FilterPanel extends Component {
 	render() {
 		let { sensitivity, tat, regulatory, score } = this.state
 		return (
-			<div className="jumbotron">
-			 	<h4 id="panel-header">Filters</h4>
+			<div className="jumbotron with-shadow">
+			 	<h4 id="panel-header"><strong>Filters</strong></h4>
+			 	<hr />
 				<form>
 					<div className="form-group">
 				 		<label>Sensitivity: {sensitivity}</label>
@@ -77,7 +78,8 @@ class FilterPanel extends Component {
 				 		<input type="range" min="1" max="15" value={score} className="slider form-control" id="scoreRange" onChange={this.setScoreValue.bind(this)}/>
 					</div>
 				</form>
-				<button className="btn btn-outline-success" onClick={this.resetFilter.bind(this)}>CLEAR FITERS</button>
+				<hr />
+				<button className="btn btn-outline-success with-shadow-light" onClick={this.resetFilter.bind(this)}>CLEAR</button>
 			</div>
 		)
 	}

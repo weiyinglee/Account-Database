@@ -35,16 +35,16 @@ class DataFilters extends React.Component {
 			<nav className="navbar navbar-expand-lg navbar-light bg-light container">
 			  <div className="row" id="navbarSupportedContent">
 
-		        <form className="form-inline col-12 col-sm-12 col-md-5 col-lg-5">
+		        <form className="navbar-nav form-inline col-12 col-sm-12 col-md-5 col-lg-6">
 				    <div className="input-group">
 				        <div className="input-group-prepend">
 				          <span className="input-group-text">Search</span>
 				        </div>
-				      <input className="form-control" type="search" onChange={this.handleManufacturerFilter.bind(this)} ref="nameInput" placeholder="Enter Name" aria-label="Search" />
+				      <input className="form-control" type="search" onChange={this.handleManufacturerFilter.bind(this)} ref="nameInput" placeholder="Enter name..." aria-label="Search" />
 				    </div>
 				</form>			    
 
-		        <div className="navbar-nav form-inline form-group col-6 col-sm-6 col-md-5 col-lg-5">
+		        <div className="navbar-nav form-inline form-group col-6 col-sm-6 col-md-5 col-lg-3">
 				    <div className="input-group">
 				        <div className="input-group-prepend">
 				          <span className="input-group-text">Sort By</span>
@@ -60,9 +60,9 @@ class DataFilters extends React.Component {
 				    </div>		        	
 				</div>
 
-			    <ul className="navbar-nav col-6 col-sm-6 col-md-2 col-lg-2">
+			    <ul className="navbar-nav col-6 col-sm-6 col-md-2 col-lg-3">
 			    	<li className="nav-item">
-        				<a className="btn btn-outline-dark" href="#" id="filterPanelBtn" onClick={this.openFilterPanel.bind(this)}>
+        				<a className="btn btn-outline-dark with-shadow-light" href="#" id="filterPanelBtn" onClick={this.openFilterPanel.bind(this)}>
         					{this.props.showPanel ? 'CLOSE FILTERS' : 'OPEN FILTERS'}
         				</a>
           			</li>
