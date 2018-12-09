@@ -80,6 +80,7 @@ class DataTable extends React.Component {
 			let dataSet = DataSets[i]
 
 			if(filter.manufacturer != "" && !matchPrefix(filter.manufacturer, dataSet.manufacturer)) continue
+			if(filter.product != "" && !matchPrefix(filter.product, dataSet.product)) continue
 			if(parseInt(dataSet.sensitivity) > filter.sensitivityMax) continue
 			if(parseInt(dataSet.tat) > filter.tatMax) continue
 			if(parseInt(dataSet.regulatory) > filter.regulatoryMax) continue

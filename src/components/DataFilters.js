@@ -11,9 +11,13 @@ class DataFilters extends React.Component {
 		}
 	}
 
-	//event handler for filters
+	//event handler for input filters
 	handleManufacturerFilter(e) {
 		this.props.handleManufacturerFilter(e.target.value)
+	}
+
+	handleProductFilter(e) {
+		this.props.handleProductFilter(e.target.value)
 	}
 
 	//handle the filters
@@ -32,19 +36,28 @@ class DataFilters extends React.Component {
 			return (<div></div>)
 		}
 		return (
-			<nav className="navbar navbar-expand-lg navbar-light bg-light container">
+			<nav className="navbar navbar-expand-lg navbar-light bg-light">
 			  <div className="row" id="navbarSupportedContent">
 
-		        <form className="navbar-nav form-inline col-12 col-sm-12 col-md-5 col-lg-6">
+		        <form className="navbar-nav form-inline col-12 col-sm-12 col-md-4 col-lg-4">
 				    <div className="input-group">
 				        <div className="input-group-prepend">
-				          <span className="input-group-text">Search</span>
+				          <span className="input-group-text">Company</span>
 				        </div>
-				      <input className="form-control" type="search" onChange={this.handleManufacturerFilter.bind(this)} ref="nameInput" placeholder="Enter name..." aria-label="Search" />
+				      <input className="form-control" type="search" onChange={this.handleManufacturerFilter.bind(this)} ref="nameInput" placeholder="Type name..." aria-label="Search" />
+				    </div>
+				</form>
+
+		        <form className="navbar-nav form-inline col-12 col-sm-12 col-md-4 col-lg-4">
+				    <div className="input-group">
+				        <div className="input-group-prepend">
+				          <span className="input-group-text">Product</span>
+				        </div>
+				      <input className="form-control" type="search" onChange={this.handleProductFilter.bind(this)} ref="productInput" placeholder="Type product..." aria-label="Search" />
 				    </div>
 				</form>			    
 
-		        <div className="navbar-nav form-inline form-group col-6 col-sm-6 col-md-5 col-lg-3">
+		        <div className="navbar-nav form-inline form-group col-6 col-sm-6 col-md-2 col-lg-3">
 				    <div className="input-group">
 				        <div className="input-group-prepend">
 				          <span className="input-group-text">Sort By</span>
@@ -60,7 +73,7 @@ class DataFilters extends React.Component {
 				    </div>		        	
 				</div>
 
-			    <ul className="navbar-nav col-6 col-sm-6 col-md-2 col-lg-3">
+			    <ul className="navbar-nav col-6 col-sm-6 col-md-2 col-lg-1">
 			    	<li className="nav-item">
         				<a className="btn btn-outline-dark with-shadow-light" href="#" id="filterPanelBtn" onClick={this.openFilterPanel.bind(this)}>
         					{this.props.showPanel ? 'CLOSE FILTERS' : 'OPEN FILTERS'}

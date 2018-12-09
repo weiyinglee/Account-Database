@@ -14,6 +14,7 @@ class Layout extends React.Component {
 		this.state = {
 			filters: {
 				manufacturer: "",
+				product: "",
 				sensitivityMax: 5,
 				tatMax: 5,
 				regulatoryMax: 5,
@@ -26,10 +27,17 @@ class Layout extends React.Component {
 		}
 	}
 
-	//handle the filtering types
+	//handle the filtering for manufacturer
 	handleManufacturerFilter(prefix) {
 		let { filters } = this.state
 		filters.manufacturer = prefix
+		this.setState({ filters })
+	}
+
+	//handle the filtering for product
+	handleProductFilter(prefix) {
+		let { filters } = this.state
+		filters.product = prefix
 		this.setState({ filters })
 	}
 
@@ -45,6 +53,7 @@ class Layout extends React.Component {
 		let { filters } = this.state
 
 		filters.manufacturer = ""
+		filters.product = ""
 		filters.sortBy = ""
 		filters.compareState = !filters.compareState
 
@@ -114,6 +123,7 @@ class Layout extends React.Component {
 				<Header />
 				<DataFilters
 					handleManufacturerFilter={this.handleManufacturerFilter.bind(this)}
+					handleProductFilter={this.handleProductFilter.bind(this)}
 					handleFilterBy={this.handleFilterBy.bind(this)}
 					compareState={this.state.filters.compareState}
 					openFilterPanel={this.openFilterPanel.bind(this)}
