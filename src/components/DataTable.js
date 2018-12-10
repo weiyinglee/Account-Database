@@ -10,7 +10,6 @@ import Pagination from './Pagination'
 import LoadingSpinner from './LoadingSpinner'
 
 class DataTable extends React.Component {
-
 	constructor(props) {
 		super(props)
 		this.numberOfShowPerPage = props.numberOfShowPerPage
@@ -25,9 +24,8 @@ class DataTable extends React.Component {
 		}
 	}
 
-	//update the data after the filter
+	//update the data after the filter updated
 	componentWillReceiveProps(nextProps) {
-
 		let filter = nextProps.filters
 
 		this.setState({
@@ -40,6 +38,7 @@ class DataTable extends React.Component {
 		})
 	}
 
+	//put the selected items to the comparing list
 	selected(id) {
 		let { selected } = this.state
 		if(selected.has(id)) { 
@@ -51,6 +50,7 @@ class DataTable extends React.Component {
 		this.setState({ selected })
 	}
 
+	//clear all the selected items from the comparing list
 	clearList() {
 		let { filteredDataSets, DataSets} = this.state
 		filteredDataSets = DataSets
@@ -58,28 +58,25 @@ class DataTable extends React.Component {
 		this.props.clearSelected()
 	}
 
+	//Compare all the items in the comparing list
 	compareList() {
 		this.props.compareSelected()
 	}
 
-	//filters
+	//pass each category value to the App for filtering
 	setSensitivityMax(num) { this.props.setSensitivityMax(num) }
 	setTATMax(num) { this.props.setTATMax(num) }
 	setRegulatoryMax(num) { this.props.setRegulatoryMax(num) }
 	setScoreMax(num) { this.props.setScoreMax(num) }
 
-
+	//render the page
 	render() {
+		//grab all the properties from the state
 		const { filteredDataSets, pageNumber, maximumPage, filters, selected, compareState, error } = this.state
 
-		const width = 300
-		const height = 300
-
+		//Calculate the range for the partial data set per page
 		let endEntry = pageNumber * this.numberOfShowPerPage
 		let startEntry = endEntry - this.numberOfShowPerPage
-
-		//handle error message page
-		if(error) { return <div>{this.state.error}</div> }
 
 		//JSX HTMLs
 		let compareForm = ''
@@ -89,9 +86,9 @@ class DataTable extends React.Component {
 		let totalProduct = (<h6 id="count-result"><strong> Total Products: {filteredDataSets.length}</strong></h6>)
 		
 		//partial dataSets
-		let dataSets = filteredDataSets.slice(startEntry, endEntry)
+		let dataSets = filteredDataSets.slice(startEntry, endEntry)		
 
-		//condition states
+		//If the comparing list is empty, hide the compare alert form
 		if(selected.size != 0) {
 			compareForm = (
 				<div className="alert alert-secondary compare-alert" role="alert">
@@ -101,18 +98,24 @@ class DataTable extends React.Component {
 			)
 		}
 
+		//If the state of the application is currently comparing items, the app render the items in comparing list instead
+		//render all other essential elements for the comparing page
 		if(compareState) {
+			//get the comparing list
 			dataSets = [...selected.values()]
 
-			const getMaxItemByType = (type, maxValue) => {
-				return dataSets.find((data) => data[type] == maxValue).manufacturer
-			}
-
+			//calculate all the max values for each category
 			let maxSensitivity = Math.max(...dataSets.map(v => v.sensitivity), 0)
 			let maxTAT = Math.max(...dataSets.map(v => v.tat), 0)
 			let maxRegulatory = Math.max(...dataSets.map(v => v.regulatory), 0)
-			let maxScore = Math.max(...dataSets.map(v => v.score), 0)
+			let maxScore = Math.max(...dataSets.map(v => v.score), 0)			
 
+			//get the item with the max value for specific category
+			const getMaxItemByType = (category, maxValue) => {
+				return dataSets.find((data) => data[category] == maxValue).manufacturer
+			}
+
+			//create the ranking HTML
 			compareRank = (
 				<div className="card with-shadow border-secondary" id="compareRank">
 				  <div className="card-body">
@@ -139,13 +142,16 @@ class DataTable extends React.Component {
 			totalProduct = ''
 		}
 
+		//if the dataSets is empty, show the alert telling user there is no result found
 		if(dataSets.length == 0) {
+			//display no result alert
 			dataPresentations = (
 				<div className="alert alert-danger no-result-alert" role="alert">
 					Looks like there aren't any products that match your search :(
 				</div>
 			)
 		}else {
+			//display the presentation for all the data
 			dataPresentations = dataSets.map((dataSet, index) => {
 	   			let sensitivity = dataSet.sensitivity == '' ? 0 : parseInt(dataSet.sensitivity)
 	   			let tat = dataSet.tat == '' ? 0 : parseInt(dataSet.tat)
@@ -207,6 +213,10 @@ class DataTable extends React.Component {
 		}
 
 		//render the page
+		//handle error message page
+		if(error) { return <div>{this.state.error}</div> }
+
+		//if the data is still loading, show the progressive spinner
 		if(this.props.onLoad) {
 			return (
 				<div className="spinner">
@@ -214,6 +224,7 @@ class DataTable extends React.Component {
 				</div>
 			)
 		}else {
+			//show normal UI
 			return (
 				<div className="data-section">
 					{ totalProduct }

@@ -26,6 +26,7 @@ class FilterPanel extends Component {
 		})
 	}
 
+	//set up the values for each category
 	setSensitivityValue(e) {
 		let value = e.target.value
 		this.props.setSensitivityMax(value)
@@ -46,6 +47,7 @@ class FilterPanel extends Component {
 		this.props.setScoreMax(value)
 	}
 
+	//Reset all the values to default for each category
 	resetFilter() {
 		this.props.setSensitivityMax(5)
 		this.props.setTATMax(5)
@@ -54,7 +56,9 @@ class FilterPanel extends Component {
 	}
 
 	render() {
+		//grab the property for state
 		let { sensitivity, tat, regulatory, score } = this.state
+		
 		return (
 			<div className="jumbotron with-shadow">
 			 	<h4 id="panel-header"><strong>Filters</strong></h4>

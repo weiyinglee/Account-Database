@@ -1,3 +1,4 @@
+//import dependenicies
 import React, { Component } from "react"
 
 class LoadingSpinner extends Component {
