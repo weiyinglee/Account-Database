@@ -12,8 +12,7 @@ import Header from './Header'
 import Footer from './Footer'
 import Pagination from './Pagination'
 
-class Layout extends React.Component {
-
+class App extends React.Component {
 	constructor(props) {
 		super(props)
 		this.state = {
@@ -59,12 +58,11 @@ class Layout extends React.Component {
 				//set max pages
 				let maximumPage = Math.ceil(filteredDataSets.length / this.numberOfShowPerPage)
 				if(maximumPage <= 0) maximumPage = 1
-
 				let pageNumber = this.state.pageNumber
 				if(pageNumber > maximumPage) pageNumber = maximumPage
 
+				//set up the global state
 				this.setState({ onLoad: false, DataSets, filteredDataSets, maximumPage, pageNumber })
-
 			  } else {
 			    this.setState({ error });
 			  }
@@ -73,6 +71,7 @@ class Layout extends React.Component {
 		})		
 	}
 
+	//Filter/Sort out the whole dataSet based on the filter information
 	setUpFilter(filter) {
 		let { DataSets } = this.state
 		let filteredDataSets = []
@@ -130,13 +129,14 @@ class Layout extends React.Component {
 			}
 		})
 
-		//set new max page
+		//set new max page based on the new dataSets after filtering
 		let maximumPage = Math.ceil(filteredDataSets.length / this.numberOfShowPerPage)
 		if(maximumPage <= 0) maximumPage = 1
 
 		let pageNumber = this.state.pageNumber
 		if(pageNumber > maximumPage) pageNumber = maximumPage
 
+		//update the state
 		this.setState({ filteredDataSets, maximumPage, pageNumber })
 	}
 
@@ -220,23 +220,18 @@ class Layout extends React.Component {
 		this.setState({ filters })
 		this.setUpFilter(filters)
 	}
-
 	setTATMax(num) {
 		let { filters } = this.state
 		filters.tatMax = num
 		this.setState({ filters })
 		this.setUpFilter(filters)
 	}
-
-
 	setRegulatoryMax(num) {
 		let { filters } = this.state
 		filters.regulatoryMax = num
 		this.setState({ filters })
 		this.setUpFilter(filters)
 	}
-
-
 	setScoreMax(num) {
 		let { filters } = this.state
 		filters.scoreMax = num
@@ -273,18 +268,8 @@ class Layout extends React.Component {
 		this.setState({ pageNumber })
 	}
 
+	//render the page
 	render() {
-		let pageHTML = (
-			<Pagination 
-				changePageNumber={this.changePageNumber.bind(this)}
-				handleChangePageNumber={this.handleChangePageNumber.bind(this)}
-				pageNumber={this.state.pageNumber}
-				maximumPage={this.state.maximumPage}
-			/>
-		)
-
-		if(this.state.filters.compareState || this.state.onLoad) { pageHTML = '' }
-
 		return (
 			<div className="container-fluid bg-light">
 				<Header />
@@ -314,11 +299,18 @@ class Layout extends React.Component {
 					setRegulatoryMax={this.setRegulatoryMax.bind(this)}
 					setScoreMax={this.setScoreMax.bind(this)}
 				/>
-				{ pageHTML }				
+				{ this.state.filters.compareState || this.state.onLoad ? '' :  
+					<Pagination 
+						changePageNumber={this.changePageNumber.bind(this)}
+						handleChangePageNumber={this.handleChangePageNumber.bind(this)}
+						pageNumber={this.state.pageNumber}
+						maximumPage={this.state.maximumPage}
+					/>
+				}				
 				<Footer />
 			</div>
 		)
 	}
 }
 
-export default Layout
+export default App
