@@ -129,7 +129,14 @@ class Layout extends React.Component {
 			}
 		})
 
-		this.setState({ filteredDataSets })
+		//set new max page
+		let maximumPage = Math.ceil(filteredDataSets.length / this.numberOfShowPerPage)
+		if(maximumPage <= 0) maximumPage = 1
+
+		let pageNumber = this.state.pageNumber
+		if(pageNumber > maximumPage) pageNumber = maximumPage
+
+		this.setState({ filteredDataSets, maximumPage, pageNumber })
 	}
 
 	//handle the filtering for manufacturer
