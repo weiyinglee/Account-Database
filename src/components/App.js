@@ -296,27 +296,25 @@ class Layout extends React.Component {
 					openFilterPanel={this.openFilterPanel.bind(this)}
 					showPanel={this.state.showPanel}
 				/>
-				<div>
-					<DataTable
-						onLoad={this.state.onLoad}
-						DataSets={this.state.DataSets}
-						filteredDataSets={this.state.filteredDataSets}
-						filters={this.state.filters}
-						pageNumber={this.state.pageNumber}
-						maximumPage={this.state.maximumPage}
-						numberOfShowPerPage={this.numberOfShowPerPage}
-						compareSelected={this.compareSelected.bind(this)}
-						clearSelected={this.clearSelected.bind(this)}
-						addSelected={this.addSelected.bind(this)}
-						removeSelected={this.removeSelected.bind(this)}
-						showPanel={this.state.showPanel}
-						setSensitivityMax={this.setSensitivityMax.bind(this)}
-						setTATMax={this.setTATMax.bind(this)}
-						setRegulatoryMax={this.setRegulatoryMax.bind(this)}
-						setScoreMax={this.setScoreMax.bind(this)}
-					/>
-					{ pageHTML }
-				</div>				
+				<DataTable
+					onLoad={this.state.onLoad}
+					DataSets={this.state.DataSets}
+					filteredDataSets={this.state.filteredDataSets}
+					filters={this.state.filters}
+					pageNumber={this.state.pageNumber}
+					maximumPage={this.state.maximumPage}
+					numberOfShowPerPage={this.numberOfShowPerPage}
+					compareSelected={this.compareSelected.bind(this)}
+					clearSelected={this.clearSelected.bind(this)}
+					addSelected={this.addSelected.bind(this)}
+					removeSelected={this.removeSelected.bind(this)}
+					showPanel={this.state.showPanel}
+					setSensitivityMax={this.setSensitivityMax.bind(this)}
+					setTATMax={this.setTATMax.bind(this)}
+					setRegulatoryMax={this.setRegulatoryMax.bind(this)}
+					setScoreMax={this.setScoreMax.bind(this)}
+				/>
+				{ pageHTML }				
 				<Footer />
 			</div>
 		)

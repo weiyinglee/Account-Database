@@ -146,7 +146,6 @@ footer {
 	color: white;
 	background: #222;
 	width: 100%;
-	height: 10%;
 	padding: 3%;
 	bottom: 0;
 }
@@ -165,6 +164,7 @@ footer {
 .spinner {
 	display: flex;
 	justify-content: center;
+	margin-bottom: 300px;
 }
 
 .loader {
