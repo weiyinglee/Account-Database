@@ -7,6 +7,7 @@ import { Bar } from 'react-chartjs-2'
 //import components
 import FilterPanel from './FilterPanel'
 import Pagination from './Pagination'
+import LoadingSpinner from './LoadingSpinner'
 
 class DataTable extends React.Component {
 
@@ -206,39 +207,47 @@ class DataTable extends React.Component {
 		}
 
 		//render the page
-		return (
-			<div className="data-section">
-				{ totalProduct }
-				<hr />
-				<div className={this.props.showPanel ? "row" : ''}>
+		if(this.props.onLoad) {
+			return (
+				<div className="spinner">
+					<LoadingSpinner />
+				</div>
+			)
+		}else {
+			return (
+				<div className="data-section">
+					{ totalProduct }
+					<hr />
+					<div className={this.props.showPanel ? "row" : ''}>
 
-					<div className={this.props.showPanel ? "col-sm-3" : 'hidden'}>
-						<FilterPanel
-							sensitivity={this.props.filters.sensitivityMax}
-							tat={this.props.filters.tatMax}
-							regulatory={this.props.filters.regulatoryMax}
-							score={this.props.filters.scoreMax}
-							setSensitivityMax={this.setSensitivityMax.bind(this)}
-							setTATMax={this.setTATMax.bind(this)}
-							setRegulatoryMax={this.setRegulatoryMax.bind(this)}
-							setScoreMax={this.setScoreMax.bind(this)}
-							compareState={compareState}
-						/>
-					</div>
+						<div className={this.props.showPanel ? "col-sm-3" : 'hidden'}>
+							<FilterPanel
+								sensitivity={this.props.filters.sensitivityMax}
+								tat={this.props.filters.tatMax}
+								regulatory={this.props.filters.regulatoryMax}
+								score={this.props.filters.scoreMax}
+								setSensitivityMax={this.setSensitivityMax.bind(this)}
+								setTATMax={this.setTATMax.bind(this)}
+								setRegulatoryMax={this.setRegulatoryMax.bind(this)}
+								setScoreMax={this.setScoreMax.bind(this)}
+								compareState={compareState}
+							/>
+						</div>
 
-					<div className={ 
-						this.props.showPanel ? 'card-group justify-content-md-center col-sm-9' : 'card-group justify-content-md-center row'
-					}>
-				    { dataPresentations }
+						<div className={ 
+							this.props.showPanel ? 'card-group justify-content-md-center col-sm-9' : 'card-group justify-content-md-center row'
+						}>
+					    { dataPresentations }
+					    </div>
+					    <div className="container">
+					    	{ compareRank }
+					    </div>
 				    </div>
-				    <div className="container">
-				    	{ compareRank }
-				    </div>
-			    </div>
-			    <hr />
-				{ compareForm }
-			</div>
-		)
+				    <hr />
+					{ compareForm }
+				</div>
+			)			
+		}
 	}
 }
 

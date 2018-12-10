@@ -4,8 +4,9 @@
 	box-sizing: border-box;
 }
 
-body {
+html, body {
 	font-family: Montserrat,sans-serif;
+	height: 100%;
 }
 
 .with-shadow {
@@ -145,9 +146,8 @@ footer {
 	color: white;
 	background: #222;
 	width: 100%;
-	height: 5%;
+	height: 10%;
 	padding: 3%;
-	margin-bottom: 0;
 	bottom: 0;
 }
 
@@ -160,6 +160,26 @@ footer {
 .header-content-section p {
 	width: 80%;
 	margin: auto;
+}
+
+.spinner {
+	display: flex;
+	justify-content: center;
+}
+
+.loader {
+  border: 16px solid #f3f3f3; /* Light grey */
+  border-top: 16px solid teal; /* Blue */
+  border-radius: 50%;
+  width: 100px;
+  height: 100px;
+  margin: 10%;
+  animation: spin 2s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
 }
 
 @media screen and (max-width: 1000px) {

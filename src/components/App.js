@@ -17,6 +17,7 @@ class Layout extends React.Component {
 	constructor(props) {
 		super(props)
 		this.state = {
+			onLoad: true,
 			DataSets: [],
 			filteredDataSets: [],
 			filters: {
@@ -62,7 +63,7 @@ class Layout extends React.Component {
 				let pageNumber = this.state.pageNumber
 				if(pageNumber > maximumPage) pageNumber = maximumPage
 
-				this.setState({ DataSets, filteredDataSets, maximumPage, pageNumber })
+				this.setState({ onLoad: false, DataSets, filteredDataSets, maximumPage, pageNumber })
 
 			  } else {
 			    this.setState({ error });
@@ -273,7 +274,6 @@ class Layout extends React.Component {
 	}
 
 	render() {
-
 		let pageHTML = (
 			<Pagination 
 				changePageNumber={this.changePageNumber.bind(this)}
@@ -283,7 +283,7 @@ class Layout extends React.Component {
 			/>
 		)
 
-		if(this.state.filters.compareState) { pageHTML = '' }
+		if(this.state.filters.compareState || this.state.onLoad) { pageHTML = '' }
 
 		return (
 			<div className="container-fluid bg-light">
@@ -296,24 +296,27 @@ class Layout extends React.Component {
 					openFilterPanel={this.openFilterPanel.bind(this)}
 					showPanel={this.state.showPanel}
 				/>
-				<DataTable
-					DataSets={this.state.DataSets}
-					filteredDataSets={this.state.filteredDataSets}
-					filters={this.state.filters}
-					pageNumber={this.state.pageNumber}
-					maximumPage={this.state.maximumPage}
-					numberOfShowPerPage={this.numberOfShowPerPage}
-					compareSelected={this.compareSelected.bind(this)}
-					clearSelected={this.clearSelected.bind(this)}
-					addSelected={this.addSelected.bind(this)}
-					removeSelected={this.removeSelected.bind(this)}
-					showPanel={this.state.showPanel}
-					setSensitivityMax={this.setSensitivityMax.bind(this)}
-					setTATMax={this.setTATMax.bind(this)}
-					setRegulatoryMax={this.setRegulatoryMax.bind(this)}
-					setScoreMax={this.setScoreMax.bind(this)}
-				/>
-				{ pageHTML }
+				<div>
+					<DataTable
+						onLoad={this.state.onLoad}
+						DataSets={this.state.DataSets}
+						filteredDataSets={this.state.filteredDataSets}
+						filters={this.state.filters}
+						pageNumber={this.state.pageNumber}
+						maximumPage={this.state.maximumPage}
+						numberOfShowPerPage={this.numberOfShowPerPage}
+						compareSelected={this.compareSelected.bind(this)}
+						clearSelected={this.clearSelected.bind(this)}
+						addSelected={this.addSelected.bind(this)}
+						removeSelected={this.removeSelected.bind(this)}
+						showPanel={this.state.showPanel}
+						setSensitivityMax={this.setSensitivityMax.bind(this)}
+						setTATMax={this.setTATMax.bind(this)}
+						setRegulatoryMax={this.setRegulatoryMax.bind(this)}
+						setScoreMax={this.setScoreMax.bind(this)}
+					/>
+					{ pageHTML }
+				</div>				
 				<Footer />
 			</div>
 		)
