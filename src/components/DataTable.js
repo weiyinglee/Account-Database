@@ -2,166 +2,41 @@
 
 //import dependienies
 import React from 'react'
-import config from '../config'
-import { load } from '../helpers/spreadsheet'
 import { Bar } from 'react-chartjs-2'
 
 //import components
 import FilterPanel from './FilterPanel'
+import Pagination from './Pagination'
 
 class DataTable extends React.Component {
 
 	constructor(props) {
 		super(props)
-		this.minimunPage = 1
-		this.numberOfShowPerPage = 15
+		this.numberOfShowPerPage = props.numberOfShowPerPage
 		this.state = {
 			DataSets: [],
 			filteredDataSets: [],
-			pageNumber: 1,
-			maximumPage: 1,
+			pageNumber: props.pageNumber,
+			maximumPage: props.maximumPage,
 			selected: new Map(),
 			compareState: false,
 			error: null
 		}
 	}
 
-	//load the data from google sheets
-	componentWillMount() {
-	  	// 1. Load the JavaScript client library.
-	  	window.gapi.load("client", () => {
-		  // 2. Initialize the JavaScript client library.
-		  window.gapi.client
-		    .init({
-		      apiKey: config.apiKey,
-		      // Your API key will be automatically added to the Discovery Document URLs.
-		      discoveryDocs: config.discoveryDocs
-		    })
-		    .then(() => {
-		    // 3. Initialize and make the API request.
-		    load((data, error) => {
-			  if (data) {
-			    let DataSets = data.DataSets
-			    let filteredDataSets = DataSets
-			   
-			    this.setState({ 
-			    	DataSets,
-			    	filteredDataSets,
-			    	maximumPage: Math.ceil(DataSets.length / this.numberOfShowPerPage)
-			    });
-			  } else {
-			    this.setState({ error });
-			  }
-			})
-		  })
-		})		
-	}
-
 	//update the data after the filter
 	componentWillReceiveProps(nextProps) {
 
-		let { DataSets } = this.state
 		let filter = nextProps.filters
-		let filteredDataSets = []
-
-		const matchPrefix = (prefix, str) => {
-			prefix = prefix.toLowerCase()
-			str = str.toLowerCase()
-
-			if(prefix.length > str.length) return false
-			for(let i = 0; i < prefix.length; i++) {
-				if(prefix[i] != str[i]) return false
-			}
-			return true
-		}
-
-		//filter by
-		for(let i = 0; i < DataSets.length; i++) {
-			let dataSet = DataSets[i]
-
-			if(filter.manufacturer != "" && !matchPrefix(filter.manufacturer, dataSet.manufacturer)) continue
-			if(filter.product != "" && !matchPrefix(filter.product, dataSet.product)) continue
-			if(parseInt(dataSet.sensitivity) > filter.sensitivityMax) continue
-			if(parseInt(dataSet.tat) > filter.tatMax) continue
-			if(parseInt(dataSet.regulatory) > filter.regulatoryMax) continue
-			if(parseInt(dataSet.score) > filter.scoreMax) continue
-
-			filteredDataSets.push(dataSet)
-		}	
-
-		//sort by
-		filteredDataSets.sort((a, b) => {
-			switch(filter.sortBy) {
-				case 'None':
-					return 0
-				case 'Name':
-					if(a.manufacturer < b.manufacturer) return -1
-					else if(b.manufacturer < a.manufacturer) return 1
-					return 0
-					break
-				case 'Sensitivity':
-					return parseInt(b.sensitivity) - parseInt(a.sensitivity)
-					break
-				case 'TAT':
-					return parseInt(b.tat) - parseInt(a.tat)
-					break
-				case 'Regulatory':
-					return parseInt(b.regulatory) - parseInt(a.regulatory)
-					break
-				case 'Score':
-					return parseInt(b.score) - parseInt(a.score)
-					break
-				default:
-					return 0
-					break
-			}
-		})
-
-		//set max pages
-		let maximumPage = Math.ceil(filteredDataSets.length / this.numberOfShowPerPage)
-		if(maximumPage <= 0) maximumPage = 1
-
-		let pageNumber = this.state.pageNumber
-		if(pageNumber > maximumPage) pageNumber = maximumPage
 
 		this.setState({
-			filteredDataSets,
-			pageNumber,
-			maximumPage,
+			DataSets: nextProps.DataSets,
+			filteredDataSets: nextProps.filteredDataSets,
+			pageNumber: nextProps.pageNumber,
+			maximumPage: nextProps.maximumPage,
 			selected: filter.selected,
 			compareState: filter.compareState
 		})
-	}
-
-	//handle the increment/decrement of page
-	changePageNumber(isIncrement) {
-		let pageNumber = parseInt(this.state.pageNumber)
-		let maximumPage = this.state.maximumPage
-		let minimunPage = this.minimunPage
-
-		if(isIncrement) pageNumber++
-		else pageNumber--
-
-		//prevent page out of bound
-		if(pageNumber <= 0) pageNumber = minimunPage
-		else if(pageNumber > maximumPage) pageNumber = maximumPage
-
-		//update the page number
-		this.setState({ pageNumber })
-	}
-
-	//handle the input onchange for page
-	handleChangePageNumber(e) {
-		let pageNumber = e.target.value
-		let maximumPage = this.state.maximumPage
-	 	let minimunPage = this.minimunPage
-
-		//prevent page out of bound
-		if(pageNumber > maximumPage) pageNumber = maximumPage
-		else if(pageNumber <= 0 || pageNumber == '') pageNumber = minimunPage
-
-		//update the page number
-		this.setState({ pageNumber })
 	}
 
 	selected(id) {
@@ -194,7 +69,7 @@ class DataTable extends React.Component {
 
 
 	render() {
-		const { DataSets, filteredDataSets, pageNumber, maximumPage, filters, selected, compareState, error } = this.state
+		const { filteredDataSets, pageNumber, maximumPage, filters, selected, compareState, error } = this.state
 
 		const width = 300
 		const height = 300
@@ -211,30 +86,6 @@ class DataTable extends React.Component {
 		let filterForm = ''
 		let dataPresentations = ''
 		let totalProduct = (<h6 id="count-result"><strong> Total Products: {filteredDataSets.length}</strong></h6>)
-		let paginations = (
-		    <nav aria-label="Page navigation example">
-		      <div className="page-section">
-				  <ul className="pagination">
-				    <li className="page-item">
-				      <a href="#" aria-label="Previous" className="text-dark" onClick={this.changePageNumber.bind(this, false)}>
-				        <span aria-hidden="true">&laquo;</span>
-				        <span className="sr-only">Previous</span>
-				      </a>
-				    </li>
-					<li className="page-item">Page { pageNumber } / { maximumPage }</li>
-				    <li className="page-item">
-				      <a href="#" aria-label="Next" className="text-dark" onClick={this.changePageNumber.bind(this, true)}>
-				        <span aria-hidden="true">&raquo;</span>
-				        <span className="sr-only">Next</span>
-				      </a>
-				    </li>
-				    <li className="page-item">
-						<input type="number" id="page-input" min="1" max={maximumPage} placeholder="Enter page" onChange={this.handleChangePageNumber.bind(this)}/>
-				    </li>
-				  </ul>
-			  </div>
-			</nav>
-		)
 		
 		//partial dataSets
 		let dataSets = filteredDataSets.slice(startEntry, endEntry)
@@ -285,7 +136,6 @@ class DataTable extends React.Component {
 				</div>
 			)
 			totalProduct = ''
-			paginations = ''
 		}
 
 		if(dataSets.length == 0) {
@@ -382,7 +232,6 @@ class DataTable extends React.Component {
 				    </div>
 			    </div>
 			    <hr />
-			    { paginations }
 				{ compareForm }
 			</div>
 		)
