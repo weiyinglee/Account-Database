@@ -129,8 +129,6 @@ class Layout extends React.Component {
 			}
 		})
 
-		console.log(filteredDataSets)
-
 		this.setState({ filteredDataSets })
 	}
 
@@ -162,10 +160,18 @@ class Layout extends React.Component {
 	compareSelected() {
 		let { filters } = this.state
 
+		//filter reset
 		filters.manufacturer = ""
 		filters.product = ""
 		filters.sortBy = ""
+		filters.sensitivityMax = 5
+		filters.tatMax = 5
+		filters.regulatoryMax = 5
+		filters.scoreMax = 15
 		filters.compareState = !filters.compareState
+
+		//filter data reset
+		this.setUpFilter(filters)
 
 		this.setState({ filters, showPanel: false })
 	}

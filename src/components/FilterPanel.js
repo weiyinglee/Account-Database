@@ -17,28 +17,33 @@ class FilterPanel extends Component {
 		}
 	}
 
+	componentWillReceiveProps(nextProps) {
+		this.setState({
+			sensitivity: nextProps.sensitivity,
+			tat: nextProps.tat,
+			regulatory: nextProps.regulatory,
+			score: nextProps.score
+		})
+	}
+
 	setSensitivityValue(e) {
 		let value = e.target.value
 		this.props.setSensitivityMax(value)
-		this.setState({ sensitivity: value })
 	}
 
 	setTATValue(e) {
 		let value = e.target.value
 		this.props.setTATMax(value)
-		this.setState({ tat: e.target.value })
 	} 
 
 	setRegulatoryValue(e) {
 		let value = e.target.value
 		this.props.setRegulatoryMax(value)
-		this.setState({ regulatory: e.target.value }) 
 	}
 
 	setScoreValue(e) {
 		let value = e.target.value
 		this.props.setScoreMax(value)
-		this.setState({ score: e.target.value }) 
 	}
 
 	resetFilter() {
@@ -46,12 +51,6 @@ class FilterPanel extends Component {
 		this.props.setTATMax(5)
 		this.props.setRegulatoryMax(5)
 		this.props.setScoreMax(15)
-		this.setState({
-			sensitivity: 5,
-			tat: 5,
-			regulatory: 5,
-			score: 15
-		})
 	}
 
 	render() {

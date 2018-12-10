@@ -213,7 +213,11 @@ class DataTable extends React.Component {
 				<div className={this.props.showPanel ? "row" : ''}>
 
 					<div className={this.props.showPanel ? "col-sm-3" : 'hidden'}>
-						<FilterPanel 
+						<FilterPanel
+							sensitivity={this.props.filters.sensitivityMax}
+							tat={this.props.filters.tatMax}
+							regulatory={this.props.filters.regulatoryMax}
+							score={this.props.filters.scoreMax}
 							setSensitivityMax={this.setSensitivityMax.bind(this)}
 							setTATMax={this.setTATMax.bind(this)}
 							setRegulatoryMax={this.setRegulatoryMax.bind(this)}
