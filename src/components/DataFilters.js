@@ -5,10 +5,6 @@ import React from 'react'
 
 class DataFilters extends React.Component {
 
-	constructor(props) {
-		super(props)
-	}
-
 	//event handler for input filters
 	handleManufacturerFilter(e) {
 		this.props.handleManufacturerFilter(e.target.value)
@@ -28,11 +24,13 @@ class DataFilters extends React.Component {
 		this.props.openFilterPanel()
 	}
 
-
+	//render the page
 	render() {
+		//if the application is currently comparing, hide the whole filters
 		if(this.props.compareState) {
 			return (<div></div>)
 		}
+		//display normal UI for filters
 		return (
 			<nav className="navbar navbar-expand-lg navbar-light bg-light">
 			  <div className="row" id="navbarSupportedContent">
