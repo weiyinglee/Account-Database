@@ -7,8 +7,6 @@ class DataFilters extends React.Component {
 
 	constructor(props) {
 		super(props)
-		this.state = {
-		}
 	}
 
 	//event handler for input filters
