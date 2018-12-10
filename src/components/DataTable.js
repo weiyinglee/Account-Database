@@ -123,16 +123,16 @@ class DataTable extends React.Component {
 				    <div className="card-text">
 						<ul className="list-group list-group-flush">
 							<li className="list-group-item">
-								Sensitivity: <strong>{ getMaxItemByType('sensitivity', maxSensitivity) }</strong> <span className="badge badge-pill badge-secondary">{ maxSensitivity }</span>
+								Sensitivity: <strong>{ getMaxItemByType('sensitivity', maxSensitivity) }</strong> <span className="badge badge-danger">{ maxSensitivity }</span>
 							</li>
 							<li className="list-group-item">
-								TAT: <strong>{ getMaxItemByType('tat', maxTAT) }</strong> <span className="badge badge-pill badge-secondary">{ maxTAT }</span>
+								TAT: <strong>{ getMaxItemByType('tat', maxTAT) }</strong> <span className="badge badge-primary">{ maxTAT }</span>
 							</li>
 							<li className="list-group-item">
-								Regulatory: <strong>{ getMaxItemByType('regulatory', maxRegulatory) }</strong> <span className="badge badge-pill badge-secondary">{ maxRegulatory }</span>
+								Regulatory: <strong>{ getMaxItemByType('regulatory', maxRegulatory) }</strong> <span className="badge badge-warning">{ maxRegulatory }</span>
 							</li>
 							<li className="list-group-item">
-								Score: <strong>{ getMaxItemByType('score', maxScore) }</strong> <span className="badge badge-pill badge-secondary">{ maxScore }</span>
+								Score: <strong>{ getMaxItemByType('score', maxScore) }</strong> <span className="badge badge-info">{ maxScore }</span>
 							</li>
 						</ul>
 				    </div>
@@ -200,7 +200,16 @@ class DataTable extends React.Component {
 					            	text: dataSet.product,
 					            	fontSize: 18
 					           	},
-					            legend:{ display: false }
+					            legend:{ display: false },
+					            scales: {
+							        yAxes: [{
+							           ticks: {
+							              max: 15,
+							              min: 0,
+							              stepSize: 3
+							            }
+							        }]
+							    }
 					          }}
 					        />
 						  </div>

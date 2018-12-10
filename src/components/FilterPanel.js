@@ -4,7 +4,7 @@
 import React, { Component } from 'react'
 
 //import external files for tools
-import './assests/slider.css'
+import '../assests/slider.css'
 
 class FilterPanel extends Component {
 	constructor(props) {
